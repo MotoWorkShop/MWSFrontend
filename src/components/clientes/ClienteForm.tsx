@@ -62,6 +62,7 @@ export default function ClienteForm({ cliente }: { cliente: Cliente | null }) {
       const data = {
         ...values,
         nombre_cliente: values.nombre_cliente.toUpperCase(),
+        correo: values.correo.toLowerCase(),
       };
       if (cliente) {
         // Actualizar cliente existente

@@ -171,16 +171,20 @@ export default function OrdenServicioForm({
           (parseFloat(initialData.descuento) / subtotalSinDescuento) * 100;
         setDiscountPercentage(Number(calculatedPercentage.toFixed(2)));
       }
-      if (initialData.iva && initialData.repuestos) {
+      if (initialData.repuestos) {
         const repuestosTotal = initialData.repuestos.reduce(
           (acc, r) => acc + r.precio * r.cantidad,
           0
         );
-        const calculatedIvaPercentage =
-          (initialData.iva / repuestosTotal) * 100;
-        setIvaPercentage(Number(calculatedIvaPercentage.toFixed(2)));
+        if (repuestosTotal > 0) {
+          const calculatedIvaPercentage =
+            ((initialData.iva || 0) / repuestosTotal) * 100;
+          setIvaPercentage(Number(calculatedIvaPercentage.toFixed(2)));
+        } else {
+          setIvaPercentage(0);
+        }
       } else {
-        setIvaPercentage(19); // Valor por defecto si no hay datos iniciales
+        setIvaPercentage(19); // Valor por defecto si no hay repuestos
       }
     }
   }, [initialData]);
@@ -230,7 +234,6 @@ export default function OrdenServicioForm({
       Math.round(subtotalBeforeDiscount * (discountPercentage / 100) * 100) /
         100 || 0;
     const subtotalAfterDiscount = subtotalBeforeDiscount - discountValue;
-    // Usa el estado ivaPercentage en lugar de form.watch
     const iva = Math.round(repuestosTotal * (ivaPercentage / 100) * 100) / 100;
     const total = Math.round((subtotalAfterDiscount + iva) * 100) / 100;
     form.setValue("subtotal", subtotalAfterDiscount);
@@ -305,7 +308,20 @@ export default function OrdenServicioForm({
     }
 
     try {
-      await onSubmit(values);
+      const data = {
+        ...values,
+        mecanico: values.mecanico.toUpperCase(),
+        observaciones:
+          values.observaciones[0].toUpperCase() +
+          values.observaciones.slice(1).toLowerCase(),
+        observaciones_mecanico:
+          values.observaciones_mecanico[0].toUpperCase() +
+          values.observaciones_mecanico.slice(1).toLowerCase(),
+        observaciones_factura:
+          values.observaciones_factura[0].toUpperCase() +
+          values.observaciones_factura.slice(1).toLowerCase(),
+      };
+      await onSubmit(data);
     } catch (error) {
       console.error("Error:", error);
       toast({
