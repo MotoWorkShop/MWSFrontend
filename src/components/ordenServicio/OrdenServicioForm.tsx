@@ -310,7 +310,14 @@ export default function OrdenServicioForm({
     try {
       const data = {
         ...values,
-        mecanico: values.mecanico.toUpperCase(),
+        mecanico: values.mecanico
+          .split(" ")
+          .map((nombre) => {
+            return (
+              nombre.charAt(0).toUpperCase() + nombre.slice(1).toLowerCase()
+            );
+          })
+          .join(" "),
         observaciones:
           values.observaciones[0].toUpperCase() +
           values.observaciones.slice(1).toLowerCase(),
