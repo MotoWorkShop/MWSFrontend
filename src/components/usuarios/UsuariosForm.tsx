@@ -35,6 +35,7 @@ import {
 import { User } from "@/lib/interfaces";
 import { userSchema } from "@/lib/zodSchemas";
 import { createUser, updateUser } from "@/lib/actions";
+import { formatName } from "@/lib/utils";
 
 export default function UserForm({ user }: { user: User | null }) {
   const router = useRouter();
@@ -71,14 +72,7 @@ export default function UserForm({ user }: { user: User | null }) {
     try {
       const data = {
         ...values,
-        nombre_usuario: values.nombre_usuario
-          .split(" ")
-          .map((nombre) => {
-            return (
-              nombre.charAt(0).toUpperCase() + nombre.slice(1).toLowerCase()
-            );
-          })
-          .join(" "),
+        nombre_usuario: formatName(values.nombre_usuario),
         email: values.email.toLowerCase(),
       };
       if (user) {

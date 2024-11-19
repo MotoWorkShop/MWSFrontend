@@ -26,6 +26,7 @@ import {
 import { clienteSchema } from "@/lib/zodSchemas";
 import { Cliente } from "@/lib/interfaces";
 import { createCliente, updateCliente } from "@/lib/actions";
+import { formatName } from "@/lib/utils";
 
 export default function ClienteForm({ cliente }: { cliente: Cliente | null }) {
   const router = useRouter();
@@ -59,16 +60,9 @@ export default function ClienteForm({ cliente }: { cliente: Cliente | null }) {
   async function onSubmit(values: z.infer<typeof clienteSchema>) {
     setIsLoading(true);
     try {
-      const nombreFormateado = values.nombre_cliente
-        .split(" ")
-        .map((nombre) => {
-          return nombre.charAt(0).toUpperCase() + nombre.slice(1).toLowerCase();
-        })
-        .join(" ");
-      values.nombre_cliente = nombreFormateado;
-
       const data = {
         ...values,
+        nombre_cliente: formatName(values.nombre_cliente),
         correo: values.correo.toLowerCase(),
       };
       if (cliente) {

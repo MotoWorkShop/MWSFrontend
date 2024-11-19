@@ -26,6 +26,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { motion } from "framer-motion";
+import { formatName } from "@/lib/utils";
 
 const formSchema = z.object({
   nombre_usuario: z
@@ -70,14 +71,7 @@ export default function Register() {
       const data = {
         ...values,
         email: values.email.toLowerCase(),
-        nombre_usuario: values.nombre_usuario
-          .split(" ")
-          .map((nombre) => {
-            return (
-              nombre.charAt(0).toUpperCase() + nombre.slice(1).toLowerCase()
-            );
-          })
-          .join(" "),
+        nombre_usuario: formatName(values.nombre_usuario),
       };
 
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`, {

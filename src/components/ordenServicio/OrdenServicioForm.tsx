@@ -33,7 +33,7 @@ import {
   CreditCard,
 } from "lucide-react";
 import { format } from "date-fns";
-import { cn, formatCurrency } from "@/lib/utils";
+import { cn, formatCurrency, formatName } from "@/lib/utils";
 import {
   Popover,
   PopoverContent,
@@ -310,14 +310,7 @@ export default function OrdenServicioForm({
     try {
       const data = {
         ...values,
-        mecanico: values.mecanico
-          .split(" ")
-          .map((nombre) => {
-            return (
-              nombre.charAt(0).toUpperCase() + nombre.slice(1).toLowerCase()
-            );
-          })
-          .join(" "),
+        mecanico: formatName(values.mecanico),
         observaciones:
           values.observaciones[0].toUpperCase() +
           values.observaciones.slice(1).toLowerCase(),

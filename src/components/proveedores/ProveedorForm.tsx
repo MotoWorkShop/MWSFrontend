@@ -30,6 +30,7 @@ import { createProveedor, updateProveedor } from "@/lib/actions";
 import { fetchFilteredRepuestos } from "@/lib/data";
 import { ArrowLeft } from "lucide-react";
 import { proveedorSchema } from "@/lib/zodSchemas";
+import { formatName } from "@/lib/utils";
 
 type FormValues = z.infer<typeof proveedorSchema>;
 
@@ -97,22 +98,8 @@ export default function ProveedorForm({
     try {
       const updatedValues = {
         ...values,
-        nombre_proveedor: values.nombre_proveedor
-          .split(" ")
-          .map((nombre) => {
-            return (
-              nombre.charAt(0).toUpperCase() + nombre.slice(1).toLowerCase()
-            );
-          })
-          .join(" "),
-        asesor: values.asesor
-          .split(" ")
-          .map((nombre) => {
-            return (
-              nombre.charAt(0).toUpperCase() + nombre.slice(1).toLowerCase()
-            );
-          })
-          .join(" "),
+        nombre_proveedor: formatName(values.nombre_proveedor),
+        asesor: formatName(values.asesor),
         fecha_vencimiento: values.fecha_vencimiento,
       };
 
