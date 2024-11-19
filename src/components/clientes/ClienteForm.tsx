@@ -59,9 +59,16 @@ export default function ClienteForm({ cliente }: { cliente: Cliente | null }) {
   async function onSubmit(values: z.infer<typeof clienteSchema>) {
     setIsLoading(true);
     try {
+      const nombreFormateado = values.nombre_cliente
+        .split(" ")
+        .map((nombre) => {
+          return nombre.charAt(0).toUpperCase() + nombre.slice(1).toLowerCase();
+        })
+        .join(" ");
+      values.nombre_cliente = nombreFormateado;
+
       const data = {
         ...values,
-        nombre_cliente: values.nombre_cliente.toUpperCase(),
         correo: values.correo.toLowerCase(),
       };
       if (cliente) {

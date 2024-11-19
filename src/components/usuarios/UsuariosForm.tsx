@@ -1,11 +1,11 @@
-'use client'
+"use client";
 
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
-import { Button } from '@/components/ui/button'
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -13,87 +13,99 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { useToast } from '@/components/ui/use-toast'
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card'
-import { Separator } from '@/components/ui/separator'
-import { ArrowLeft } from 'lucide-react'
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { ArrowLeft } from "lucide-react";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
-import { User } from '@/lib/interfaces'
-import { userSchema } from '@/lib/zodSchemas'
-import { createUser, updateUser } from '@/lib/actions'
+} from "@/components/ui/select";
+import { User } from "@/lib/interfaces";
+import { userSchema } from "@/lib/zodSchemas";
+import { createUser, updateUser } from "@/lib/actions";
 
 export default function UserForm({ user }: { user: User | null }) {
-  const router = useRouter()
-  const { toast } = useToast()
-  const [isLoading, setIsLoading] = useState(false)
+  const router = useRouter();
+  const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
 
   const form = useForm<z.infer<typeof userSchema>>({
     resolver: zodResolver(userSchema),
     defaultValues: {
-      nombre_usuario: '',
-      email: '',
-      password: '',
-      rol: 'VENDEDOR',
+      nombre_usuario: "",
+      email: "",
+      password: "",
+      rol: "VENDEDOR",
     },
-  })
+  });
 
-  const { reset } = form
+  const { reset } = form;
 
   useEffect(() => {
     if (user) {
       reset({
-        nombre_usuario: user.nombre_usuario || '',
-        email: user.email || '',
-        password: '',
-        rol: user.rol || 'VENDEDOR',
-      })
+        nombre_usuario: user.nombre_usuario || "",
+        email: user.email || "",
+        password: "",
+        rol: user.rol || "VENDEDOR",
+      });
     }
-  }, [user, reset])
+  }, [user, reset]);
 
   async function onSubmit(values: z.infer<typeof userSchema>) {
-    console.log('Intentando enviar el formulario con los datos:', values)
-    setIsLoading(true)
+    console.log("Intentando enviar el formulario con los datos:", values);
+    setIsLoading(true);
 
     try {
+      const data = {
+        ...values,
+        nombre_usuario: values.nombre_usuario
+          .split(" ")
+          .map((nombre) => {
+            return (
+              nombre.charAt(0).toUpperCase() + nombre.slice(1).toLowerCase()
+            );
+          })
+          .join(" "),
+        email: values.email.toLowerCase(),
+      };
       if (user) {
-        await updateUser(user.id_usuario, values)
+        await updateUser(user.id_usuario, data);
         toast({
-          title: 'Usuario actualizado',
-          description: 'El usuario fue actualizado correctamente. ✅',
-        })
+          title: "Usuario actualizado",
+          description: "El usuario fue actualizado correctamente. ✅",
+        });
       } else {
-        await createUser(values)
+        await createUser(data);
         toast({
-          title: 'Usuario creado',
-          description: 'El usuario fue creado correctamente. ✅',
-        })
+          title: "Usuario creado",
+          description: "El usuario fue creado correctamente. ✅",
+        });
       }
 
-      router.push('/dashboard/usuarios')
+      router.push("/dashboard/usuarios");
     } catch (error) {
-      console.error(error)
+      console.error(error);
 
       toast({
-        title: 'Error',
+        title: "Error",
         description: error.message,
-        variant: 'destructive',
-      })
+        variant: "destructive",
+      });
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   }
 
@@ -102,19 +114,19 @@ export default function UserForm({ user }: { user: User | null }) {
       <div className="flex justify-center">
         <Card className="w-full max-w-md">
           <CardHeader>
-            <CardTitle>{user ? 'Editar Usuario' : 'Agregar Usuario'}</CardTitle>
+            <CardTitle>{user ? "Editar Usuario" : "Agregar Usuario"}</CardTitle>
           </CardHeader>
           <CardContent>
             <Form {...form}>
               <form
                 onSubmit={async (e) => {
-                  e.preventDefault()
-                  console.log('Intentando enviar el formulario')
+                  e.preventDefault();
+                  console.log("Intentando enviar el formulario");
 
-                  await form.handleSubmit(onSubmit)()
+                  await form.handleSubmit(onSubmit)();
 
-                  const errors = form.formState.errors
-                  console.log('Errores de validación:', errors)
+                  const errors = form.formState.errors;
+                  console.log("Errores de validación:", errors);
                 }}
                 className="space-y-8"
               >
@@ -206,22 +218,22 @@ export default function UserForm({ user }: { user: User | null }) {
                 >
                   {isLoading
                     ? user
-                      ? 'Actualizando...'
-                      : 'Creando...'
+                      ? "Actualizando..."
+                      : "Creando..."
                     : user
-                    ? 'Actualizar Usuario'
-                    : 'Agregar Usuario'}
+                    ? "Actualizar Usuario"
+                    : "Agregar Usuario"}
                 </Button>
               </form>
             </Form>
           </CardContent>
           <CardFooter>
-            <Button onClick={() => router.push('/dashboard/usuarios')}>
+            <Button onClick={() => router.push("/dashboard/usuarios")}>
               <ArrowLeft className="mr-2 h-4 w-4" /> Volver
             </Button>
           </CardFooter>
         </Card>
       </div>
     </div>
-  )
+  );
 }

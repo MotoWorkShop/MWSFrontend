@@ -1,11 +1,11 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
-import { Button } from '@/components/ui/button'
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -13,95 +13,108 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { useToast } from '@/components/ui/use-toast'
-import { Eye, EyeOff, User, Mail, Lock, UserCog } from 'lucide-react'
-import Image from 'next/image'
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
+import { Eye, EyeOff, User, Mail, Lock, UserCog } from "lucide-react";
+import Image from "next/image";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
-import { motion } from 'framer-motion'
+} from "@/components/ui/select";
+import { motion } from "framer-motion";
 
 const formSchema = z.object({
   nombre_usuario: z
     .string()
-    .min(2, { message: 'El nombre debe tener al menos 2 caracteres' })
-    .max(50, { message: 'El nombre no puede exceder los 50 caracteres' }),
-  email: z.string().email({ message: 'Email no válido' }),
+    .min(2, { message: "El nombre debe tener al menos 2 caracteres" })
+    .max(50, { message: "El nombre no puede exceder los 50 caracteres" }),
+  email: z.string().email({ message: "Email no válido" }),
   password: z
     .string()
-    .min(8, { message: 'La contraseña debe tener al menos 8 caracteres' })
+    .min(8, { message: "La contraseña debe tener al menos 8 caracteres" })
     .regex(
       /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
       {
         message:
-          'La contraseña debe contener al menos una mayúscula, una minúscula, un número y un carácter especial',
+          "La contraseña debe contener al menos una mayúscula, una minúscula, un número y un carácter especial",
       }
     ),
-  rol: z.enum(['ADMINISTRADOR', 'VENDEDOR'], {
-    required_error: 'Por favor seleccione un rol',
+  rol: z.enum(["ADMINISTRADOR", "VENDEDOR"], {
+    required_error: "Por favor seleccione un rol",
   }),
-})
+});
 
 export default function Register() {
-  const router = useRouter()
-  const { toast } = useToast()
-  const [isLoading, setIsLoading] = useState(false)
-  const [showPassword, setShowPassword] = useState(false)
+  const router = useRouter();
+  const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      nombre_usuario: '',
-      email: '',
-      password: '',
-      rol: 'VENDEDOR',
+      nombre_usuario: "",
+      email: "",
+      password: "",
+      rol: "VENDEDOR",
     },
-  })
+  });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
+      const data = {
+        ...values,
+        email: values.email.toLowerCase(),
+        nombre_usuario: values.nombre_usuario
+          .split(" ")
+          .map((nombre) => {
+            return (
+              nombre.charAt(0).toUpperCase() + nombre.slice(1).toLowerCase()
+            );
+          })
+          .join(" "),
+      };
+
       const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/users`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization' : `Bearer ${localStorage.getItem('token')}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
-        body: JSON.stringify(values),
-      })
+        body: JSON.stringify(data),
+      });
 
       if (response.ok) {
         toast({
-          title: 'Registro exitoso',
+          title: "Registro exitoso",
           description:
-            'La cuenta ha sido creada. Serás redirigido al dashboard.',
+            "La cuenta ha sido creada. Serás redirigido al dashboard.",
           duration: 5000,
-        })
-        setTimeout(() => router.push('/dashboard'), 5000)
+        });
+        setTimeout(() => router.push("/dashboard"), 5000);
       } else {
-        const error = await response.json()
+        const error = await response.json();
         toast({
-          title: 'Error de registro',
-          description: error.message || 'Ocurrió un error durante el registro.',
-          variant: 'destructive',
-        })
+          title: "Error de registro",
+          description: error.message || "Ocurrió un error durante el registro.",
+          variant: "destructive",
+        });
       }
     } catch (error) {
-      console.error(error)
+      console.error(error);
       toast({
-        title: 'Error de conexión',
+        title: "Error de conexión",
         description:
-          'No se pudo conectar con el servidor. Por favor, intenta de nuevo más tarde.',
-        variant: 'destructive',
-      })
+          "No se pudo conectar con el servidor. Por favor, intenta de nuevo más tarde.",
+        variant: "destructive",
+      });
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   }
 
@@ -184,7 +197,7 @@ export default function Register() {
                         <div className="relative">
                           <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-orange-500" />
                           <Input
-                            type={showPassword ? 'text' : 'password'}
+                            type={showPassword ? "text" : "password"}
                             placeholder="********"
                             {...field}
                             className="pl-10 pr-10 bg-gray-50 border-gray-300 focus:border-orange-500 focus:ring-orange-500 rounded-md shadow-sm"
@@ -240,7 +253,7 @@ export default function Register() {
                   className="w-full bg-orange-500 text-white hover:bg-orange-600 transition-colors rounded-md py-3 font-semibold shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
                   disabled={isLoading}
                 >
-                  {isLoading ? 'Registrando...' : 'Crear Cuenta'}
+                  {isLoading ? "Registrando..." : "Crear Cuenta"}
                 </Button>
               </form>
             </Form>
@@ -258,5 +271,5 @@ export default function Register() {
         </div>
       </motion.div>
     </div>
-  )
+  );
 }

@@ -1,11 +1,11 @@
-'use client'
+"use client";
 
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import * as z from 'zod'
-import { Button } from '@/components/ui/button'
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
@@ -13,122 +13,136 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form'
-import { Input } from '@/components/ui/input'
-import { useToast } from '@/components/ui/use-toast'
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useToast } from "@/components/ui/use-toast";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card'
-import { Checkbox } from '@/components/ui/checkbox'
-import { ScrollArea } from '@/components/ui/scroll-area'
-import { Proveedor, Repuesto } from '@/lib/interfaces'
-import { createProveedor, updateProveedor } from '@/lib/actions'
-import { fetchFilteredRepuestos } from '@/lib/data'
-import { ArrowLeft } from 'lucide-react'
-import { proveedorSchema } from '@/lib/zodSchemas'
+} from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Proveedor, Repuesto } from "@/lib/interfaces";
+import { createProveedor, updateProveedor } from "@/lib/actions";
+import { fetchFilteredRepuestos } from "@/lib/data";
+import { ArrowLeft } from "lucide-react";
+import { proveedorSchema } from "@/lib/zodSchemas";
 
-type FormValues = z.infer<typeof proveedorSchema>
+type FormValues = z.infer<typeof proveedorSchema>;
 
 export default function ProveedorForm({
   proveedor,
 }: {
-  proveedor: Proveedor | null
+  proveedor: Proveedor | null;
 }) {
-  const router = useRouter()
-  const { toast } = useToast()
-  const [isLoading, setIsLoading] = useState(false)
-  const [repuestos, setRepuestos] = useState<Repuesto[]>([])
-  const [repuestosQuery, setRepuestosQuery] = useState('')
+  const router = useRouter();
+  const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
+  const [repuestos, setRepuestos] = useState<Repuesto[]>([]);
+  const [repuestosQuery, setRepuestosQuery] = useState("");
 
   const form = useForm<FormValues>({
     resolver: zodResolver(proveedorSchema),
     defaultValues: {
-      nombre_proveedor: '',
-      nit: '',
-      telefono: '',
-      asesor: '',
-      fecha_vencimiento: '',
+      nombre_proveedor: "",
+      nit: "",
+      telefono: "",
+      asesor: "",
+      fecha_vencimiento: "",
       repuestos: [],
     },
-  })
+  });
 
-  const { reset, control } = form
+  const { reset, control } = form;
 
   useEffect(() => {
     if (proveedor) {
       reset({
-        nombre_proveedor: proveedor.nombre_proveedor || '',
-        nit: proveedor.nit || '',
-        telefono: proveedor.telefono || '',
-        asesor: proveedor.asesor || '',
+        nombre_proveedor: proveedor.nombre_proveedor || "",
+        nit: proveedor.nit || "",
+        telefono: proveedor.telefono || "",
+        asesor: proveedor.asesor || "",
         fecha_vencimiento: proveedor.fecha_vencimiento
-          ? new Date(proveedor.fecha_vencimiento).toISOString().split('T')[0]
-          : '',
+          ? new Date(proveedor.fecha_vencimiento).toISOString().split("T")[0]
+          : "",
         repuestos: proveedor.repuestos?.map((r) => r.id_repuesto) || [],
-      })
+      });
     }
-  }, [proveedor, reset])
+  }, [proveedor, reset]);
 
   useEffect(() => {
     const fetchRepuestos = async () => {
       try {
-        const data = await fetchFilteredRepuestos(repuestosQuery, 1, 50)
-        setRepuestos(data)
+        const data = await fetchFilteredRepuestos(repuestosQuery, 1, 50);
+        setRepuestos(data);
       } catch (error) {
-        console.error('Error fetching repuestos:', error)
+        console.error("Error fetching repuestos:", error);
         toast({
-          title: 'Error',
+          title: "Error",
           description:
-            'No se pudieron cargar los repuestos. Por favor, intente nuevamente.',
-          variant: 'destructive',
-        })
+            "No se pudieron cargar los repuestos. Por favor, intente nuevamente.",
+          variant: "destructive",
+        });
       }
-    }
+    };
 
-    fetchRepuestos()
-  }, [repuestosQuery, toast])
+    fetchRepuestos();
+  }, [repuestosQuery, toast]);
 
   async function onSubmit(values: FormValues) {
-    setIsLoading(true)
+    setIsLoading(true);
     try {
       const updatedValues = {
         ...values,
-        nombre_proveedor: values.nombre_proveedor.toUpperCase(),
-        asesor: values.asesor.toUpperCase(),
-        fecha_vencimiento: values.fecha_vencimiento, // Ensure it's in "YYYY-MM-DD" format
-      }
+        nombre_proveedor: values.nombre_proveedor
+          .split(" ")
+          .map((nombre) => {
+            return (
+              nombre.charAt(0).toUpperCase() + nombre.slice(1).toLowerCase()
+            );
+          })
+          .join(" "),
+        asesor: values.asesor
+          .split(" ")
+          .map((nombre) => {
+            return (
+              nombre.charAt(0).toUpperCase() + nombre.slice(1).toLowerCase()
+            );
+          })
+          .join(" "),
+        fecha_vencimiento: values.fecha_vencimiento,
+      };
 
       if (proveedor) {
-        await updateProveedor(proveedor.id_proveedor, updatedValues)
+        await updateProveedor(proveedor.id_proveedor, updatedValues);
         toast({
-          title: 'Proveedor actualizado',
-          description: 'El proveedor fue actualizado correctamente. ✅',
-        })
+          title: "Proveedor actualizado",
+          description: "El proveedor fue actualizado correctamente. ✅",
+        });
       } else {
-        await createProveedor(updatedValues)
+        await createProveedor(updatedValues);
         toast({
-          title: 'Proveedor creado',
-          description: 'El proveedor fue creado correctamente. ✅',
-        })
+          title: "Proveedor creado",
+          description: "El proveedor fue creado correctamente. ✅",
+        });
       }
 
-      router.push('/dashboard/proveedores')
+      router.push("/dashboard/proveedores");
     } catch (error) {
-      console.error(error)
+      console.error(error);
       toast({
-        title: 'Error',
+        title: "Error",
         description:
           error instanceof Error
             ? error.message
-            : 'Ocurrió un error, intenta nuevamente.',
-        variant: 'destructive',
-      })
+            : "Ocurrió un error, intenta nuevamente.",
+        variant: "destructive",
+      });
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   }
 
@@ -138,7 +152,7 @@ export default function ProveedorForm({
         <Card className="w-full max-w-2xl">
           <CardHeader>
             <CardTitle>
-              {proveedor ? 'Editar Proveedor' : 'Agregar Proveedor'}
+              {proveedor ? "Editar Proveedor" : "Agregar Proveedor"}
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -251,7 +265,7 @@ export default function ProveedorForm({
                                           field.value.filter(
                                             (id) => id !== repuesto.id_repuesto
                                           )
-                                        )
+                                        );
                                   }}
                                 />
                                 <label
@@ -276,18 +290,18 @@ export default function ProveedorForm({
                 >
                   {isLoading
                     ? proveedor
-                      ? 'Actualizando...'
-                      : 'Creando...'
+                      ? "Actualizando..."
+                      : "Creando..."
                     : proveedor
-                    ? 'Actualizar Proveedor'
-                    : 'Agregar Proveedor'}
+                    ? "Actualizar Proveedor"
+                    : "Agregar Proveedor"}
                 </Button>
               </form>
             </Form>
           </CardContent>
           <CardFooter>
             <Button
-              onClick={() => router.push('/dashboard/proveedores')}
+              onClick={() => router.push("/dashboard/proveedores")}
               variant="outline"
               className="w-full"
             >
@@ -297,5 +311,5 @@ export default function ProveedorForm({
         </Card>
       </div>
     </div>
-  )
+  );
 }
