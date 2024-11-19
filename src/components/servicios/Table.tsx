@@ -10,7 +10,7 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { fetchFilteredServicios } from '@/lib/data'
-import {  Servicio } from '@/lib//interfaces'
+import { Servicio } from '@/lib//interfaces'
 import TableSkeleton from '@/components/skeletons'
 import { ViewEditDeleteBtn } from '@/components/ViewEditDeleteBtn'
 
@@ -34,11 +34,7 @@ export default function ServiciosTable({
     const fetchMarcas = async () => {
       setIsLoading(true)
       try {
-        const data = await fetchFilteredServicios(
-          query,
-          currentPage,
-          limit
-        )
+        const data = await fetchFilteredServicios(query, currentPage, limit)
         setServicio(data)
       } catch (error) {
         console.error('Error fetching servicios:', error)

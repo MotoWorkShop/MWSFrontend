@@ -1,10 +1,18 @@
 'use client'
-
+// React and Next.js hooks
 import { useCallback, useState, useRef, useEffect } from 'react'
-import Link from 'next/link'
 import { usePathname } from 'next/navigation'
+
+// Next.js components
+import Link from 'next/link'
+
+// Animation libraries
 import { motion, AnimatePresence } from 'framer-motion'
+
+// Utility libraries
 import clsx from 'clsx'
+
+// Heroicons icons
 import {
   UserGroupIcon,
   HomeIcon,
@@ -14,6 +22,8 @@ import {
   ChevronDownIcon,
   BanknotesIcon,
 } from '@heroicons/react/24/outline'
+
+// Lucide-react icons
 import {
   Bike,
   Receipt,
@@ -25,6 +35,8 @@ import {
   ClipboardCheckIcon,
   Notebook,
 } from 'lucide-react'
+
+// Custom components
 import {
   Collapsible,
   CollapsibleContent,

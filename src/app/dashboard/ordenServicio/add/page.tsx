@@ -1,10 +1,15 @@
 'use client'
-
+// React and Next.js hooks
 import { useState } from 'react'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+
+// Next.js components
+import Link from 'next/link'
+
+// Icons
 import { ArrowLeft } from 'lucide-react'
 
+// Custom components
 import OrdenServicioForm from '@/components/ordenServicio/OrdenServicioForm'
 import { Button } from '@/components/ui/button'
 import { useToast } from '@/components/ui/use-toast'
@@ -25,7 +30,7 @@ export default function AddOrdenServicioPage() {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`,
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
           },
           body: JSON.stringify(data),
         }

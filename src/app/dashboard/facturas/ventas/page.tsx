@@ -15,7 +15,6 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import VentaDirectaTable from '@/components/facturas/ventas/Table'
 
-
 export default function Page() {
   const searchParams = useSearchParams()
   const [totalPages, setTotalPages] = useState(0)

@@ -1,8 +1,13 @@
 'use client'
 
+// React and Next.js hooks
 import { useEffect, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
+
+// Next.js components
 import Image from 'next/image'
+
+// UI components
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Printer, Loader2, ArrowLeft } from 'lucide-react'
@@ -15,10 +20,16 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { Badge } from '@/components/ui/badge'
-import { formatCurrency, formatDate } from '@/lib/utils'
-import { fetchOneOrdenServicio } from '@/lib/data'
-import { COMPANY_INFO } from '@/lib/constants'
 import { Separator } from '@/components/ui/separator'
+
+// Utility functions
+import { formatCurrency, formatDate } from '@/lib/utils'
+
+// Data fetching functions
+import { fetchOneOrdenServicio } from '@/lib/data'
+
+// Constants
+import { COMPANY_INFO } from '@/lib/constants'
 
 export default function CompactPrintServiceOrderView() {
   const { id } = useParams()

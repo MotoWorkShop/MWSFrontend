@@ -1,10 +1,12 @@
-"use client";
+'use client'
+// React and Next.js hooks
+import { useState, useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 
-import { useState, useEffect } from "react";
-import { useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+// UI components
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Badge } from '@/components/ui/badge'
 import {
   Table,
   TableBody,
@@ -12,8 +14,10 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { useToast } from "@/components/ui/use-toast";
+} from '@/components/ui/table'
+import { useToast } from '@/components/ui/use-toast'
+
+// Icons
 import {
   ArrowLeft,
   Printer,
@@ -22,47 +26,51 @@ import {
   DollarSign,
   ShoppingCart,
   Wrench,
-} from "lucide-react";
-import { fetchOneFactura } from "@/lib/data";
-import { COMPANY_INFO } from "@/lib/constants";
-import { formatCurrency, formatDate } from "@/lib/utils";
+} from 'lucide-react'
+
+// Data fetching and constants
+import { fetchOneFactura } from '@/lib/data'
+import { COMPANY_INFO } from '@/lib/constants'
+
+// Utility functions
+import { formatCurrency, formatDate } from '@/lib/utils'
 
 export default function CompactFacturaViewPage({
   params,
 }: {
-  params: { id: number };
+  params: { id: number }
 }) {
-  const [factura, setFactura] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const router = useRouter();
-  const { toast } = useToast();
-  const { id } = params;
+  const [factura, setFactura] = useState(null)
+  const [loading, setLoading] = useState(true)
+  const router = useRouter()
+  const { toast } = useToast()
+  const { id } = params
 
   useEffect(() => {
     const fetchFactura = async () => {
       try {
-        setLoading(true);
-        const data = await fetchOneFactura(id);
-        setFactura(data);
+        setLoading(true)
+        const data = await fetchOneFactura(id)
+        setFactura(data)
       } catch (error) {
-        console.error("Error fetching factura:", error);
+        console.error('Error fetching factura:', error)
         toast({
-          title: "Error",
-          description: "No se pudo obtener la información de la factura.",
-          variant: "destructive",
-        });
+          title: 'Error',
+          description: 'No se pudo obtener la información de la factura.',
+          variant: 'destructive',
+        })
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
+    }
 
-    fetchFactura();
-    console.log("A ver que traes", factura);
-  }, [id, toast]);
+    fetchFactura()
+    console.log('A ver que traes', factura)
+  }, [id, toast])
 
   const handlePrintThermal = () => {
-    const thermalContent = generateThermalContent();
-    const printWindow = window.open("", "_blank");
+    const thermalContent = generateThermalContent()
+    const printWindow = window.open('', '_blank')
     if (printWindow) {
       printWindow.document.write(`
     <html>
@@ -106,23 +114,23 @@ export default function CompactFacturaViewPage({
         </div>
       </body>
     </html>
-  `);
-      printWindow.document.close();
-      printWindow.focus();
+  `)
+      printWindow.document.close()
+      printWindow.focus()
       setTimeout(() => {
-        printWindow.print();
-        printWindow.close();
-      }, 250);
+        printWindow.print()
+        printWindow.close()
+      }, 250)
     }
-  };
+  }
 
   const generateThermalContent = () => {
-    if (!factura) return "";
+    if (!factura) return ''
 
-    const formatLine = (text: string) => `<div>${text}</div>`;
-    const formatCenter = (text: string) => `<div class="center">${text}</div>`;
-    const formatRight = (text: string) => `<div class="right">${text}</div>`;
-    const separator = '<div class="separator"></div>';
+    const formatLine = (text: string) => `<div>${text}</div>`
+    const formatCenter = (text: string) => `<div class="center">${text}</div>`
+    const formatRight = (text: string) => `<div class="right">${text}</div>`
+    const separator = '<div class="separator"></div>'
 
     const items = factura.orden_servicio
       ? [
@@ -143,7 +151,7 @@ export default function CompactFacturaViewPage({
           quantity: r.cantidad,
           price: parseFloat(r.precio),
         }))
-      : [];
+      : []
 
     const itemsHtml = items
       .map(
@@ -153,19 +161,19 @@ export default function CompactFacturaViewPage({
         ${formatRight(`${formatCurrency(item.quantity * item.price)}`)}
       `
       )
-      .join("");
+      .join('')
 
-    const date = new Date(factura.fecha);
-    const formattedDate = date.toLocaleDateString("es-CO", {
-      day: "numeric",
-      month: "long",
-      year: "numeric",
-    });
-    const formattedTime = date.toLocaleTimeString("es-CO", {
-      hour: "2-digit",
-      minute: "2-digit",
+    const date = new Date(factura.fecha)
+    const formattedDate = date.toLocaleDateString('es-CO', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+    })
+    const formattedTime = date.toLocaleTimeString('es-CO', {
+      hour: '2-digit',
+      minute: '2-digit',
       hour12: true,
-    });
+    })
 
     return `
     ${formatCenter(COMPANY_INFO.name)}
@@ -180,7 +188,7 @@ export default function CompactFacturaViewPage({
     ${formatLine(`Cédula: ${factura.cliente.cedula}`)}
     ${formatLine(`Vendedor: ${factura.vendedor}`)}
     ${separator}
-    ${formatLine("Descripción Cant Precio Total")}
+    ${formatLine('Descripción Cant Precio Total')}
     ${separator}
     ${itemsHtml}
     ${separator}
@@ -194,22 +202,22 @@ export default function CompactFacturaViewPage({
     ${formatRight(`IVA: ${formatCurrency(Number(factura.iva))}`)}
     ${formatRight(`Total: ${formatCurrency(Number(factura.total))}`)}
     ${separator}
-    ${formatLine("Forma de pago:")}
+    ${formatLine('Forma de pago:')}
     ${formatLine(`Efectivo: ${formatCurrency(Number(factura.pago_efectivo))}`)}
     ${formatLine(`Tarjeta: ${formatCurrency(Number(factura.pago_tarjeta))}`)}
     ${formatLine(
       `Transferencia: ${formatCurrency(Number(factura.pago_transferencia))}`
     )}
     ${separator}
-    ${formatCenter("¡Gracias por su compra!")}
-    ${formatCenter("Vuelva pronto")}
-  `;
-  };
+    ${formatCenter('¡Gracias por su compra!')}
+    ${formatCenter('Vuelva pronto')}
+  `
+  }
 
   const handlePrintStandard = () => {
-    if (!factura) return;
-    const printWindow = window.open("", "_blank");
-    if (!printWindow) return;
+    if (!factura) return
+    const printWindow = window.open('', '_blank')
+    if (!printWindow) return
 
     const items = factura.orden_servicio
       ? [
@@ -217,13 +225,13 @@ export default function CompactFacturaViewPage({
             name: s.servicio.nombre_servicio,
             quantity: 1,
             price: parseFloat(s.precio),
-            type: "Servicio",
+            type: 'Servicio',
           })),
           ...factura.orden_servicio.repuestos.map((r) => ({
             name: r.repuesto.nombre_repuesto,
             quantity: r.cantidad,
             price: parseFloat(r.precio),
-            type: "Repuesto",
+            type: 'Repuesto',
           })),
         ]
       : factura.venta_directa
@@ -231,9 +239,9 @@ export default function CompactFacturaViewPage({
           name: r.repuesto.nombre_repuesto,
           quantity: r.cantidad,
           price: parseFloat(r.precio),
-          type: "Repuesto",
+          type: 'Repuesto',
         }))
-      : [];
+      : []
 
     const itemsHtml = items
       .map(
@@ -253,7 +261,7 @@ export default function CompactFacturaViewPage({
   </tr>
 `
       )
-      .join("");
+      .join('')
 
     printWindow.document.write(`
   <html>
@@ -418,7 +426,7 @@ export default function CompactFacturaViewPage({
               (${factura.orden_servicio.moto_cliente.ano}) - Placa: ${factura.orden_servicio.moto_cliente.placa}</p>
             </div>
             `
-            : ""
+            : ''
         }
         
         <table>
@@ -517,19 +525,19 @@ export default function CompactFacturaViewPage({
       </div>
     </body>
   </html>
-`);
+`)
 
-    printWindow.document.close();
-    printWindow.focus();
+    printWindow.document.close()
+    printWindow.focus()
 
     setTimeout(() => {
-      printWindow.print();
-      printWindow.close();
-    }, 250);
-  };
+      printWindow.print()
+      printWindow.close()
+    }, 250)
+  }
 
   const handleGenerateXML = () => {
-    if (!factura) return;
+    if (!factura) return
 
     const items = factura.orden_servicio
       ? [
@@ -550,7 +558,7 @@ export default function CompactFacturaViewPage({
           cantidad: r.cantidad,
           precio: parseFloat(r.precio),
         }))
-      : [];
+      : []
 
     const itemsXml = items
       .map(
@@ -562,7 +570,7 @@ export default function CompactFacturaViewPage({
       </item>
     `
       )
-      .join("");
+      .join('')
 
     const xml = `
       <?xml version="1.0" encoding="UTF-8"?>
@@ -592,23 +600,23 @@ export default function CompactFacturaViewPage({
         <iva>${factura.iva}</iva>
         <total>${factura.total}</total>
       </factura>
-    `;
+    `
 
-    const blob = new Blob([xml], { type: "text/xml" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `factura_${factura.id_factura}.xml`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  };
+    const blob = new Blob([xml], { type: 'text/xml' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `factura_${factura.id_factura}.xml`
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+    URL.revokeObjectURL(url)
+  }
 
   if (loading) {
     return (
       <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-gray-900 mx-auto mt-8"></div>
-    );
+    )
   }
 
   if (!factura) {
@@ -616,7 +624,7 @@ export default function CompactFacturaViewPage({
       <p className="text-center mt-8">
         No se encontró información de la factura.
       </p>
-    );
+    )
   }
 
   return (
@@ -625,7 +633,7 @@ export default function CompactFacturaViewPage({
         <h1 className="text-2xl font-bold">Factura #{factura.id_factura}</h1>
         <div className="space-x-2">
           <Button
-            onClick={() => router.push("/dashboard/facturas")}
+            onClick={() => router.push('/dashboard/facturas')}
             size="sm"
             variant="outline"
           >
@@ -705,25 +713,25 @@ export default function CompactFacturaViewPage({
             ) : (
               <ShoppingCart className="mr-1 h-4 w-4" />
             )}
-            {factura.orden_servicio ? "Orden de Servicio" : "Venta Directa"}
+            {factura.orden_servicio ? 'Orden de Servicio' : 'Venta Directa'}
           </CardTitle>
         </CardHeader>
         <CardContent className="py-2">
           {factura.orden_servicio && (
             <div className="mb-2 text-sm">
               <p>
-                <span className="font-semibold">Número de Orden:</span>{" "}
+                <span className="font-semibold">Número de Orden:</span>{' '}
                 {factura.orden_servicio.id_orden_servicio}
               </p>
               <p>
-                <span className="font-semibold">Estado:</span>{" "}
+                <span className="font-semibold">Estado:</span>{' '}
                 <Badge>{factura.orden_servicio.estado}</Badge>
               </p>
               <p>
-                <span className="font-semibold">Moto:</span>{" "}
-                {factura.orden_servicio.moto_cliente.marca}{" "}
+                <span className="font-semibold">Moto:</span>{' '}
+                {factura.orden_servicio.moto_cliente.marca}{' '}
                 {factura.orden_servicio.moto_cliente.modelo} (
-                {factura.orden_servicio.moto_cliente.ano}) - Placa:{" "}
+                {factura.orden_servicio.moto_cliente.ano}) - Placa:{' '}
                 {factura.orden_servicio.moto_cliente.placa}
               </p>
             </div>
@@ -743,20 +751,20 @@ export default function CompactFacturaViewPage({
                 ? [
                     ...factura.orden_servicio.servicios.map((s) => ({
                       name: s.servicio.nombre_servicio,
-                      type: "Servicio",
+                      type: 'Servicio',
                       quantity: 1,
                       price: Number(s.precio),
                     })),
                     ...factura.orden_servicio.repuestos.map((r) => ({
                       name: r.repuesto.nombre_repuesto,
-                      type: "Repuesto",
+                      type: 'Repuesto',
                       quantity: r.cantidad,
                       price: Number(r.precio),
                     })),
                   ]
                 : factura.venta_directa.repuestos.map((r) => ({
                     name: r.repuesto.nombre_repuesto,
-                    type: "Repuesto",
+                    type: 'Repuesto',
                     quantity: r.cantidad,
                     price: Number(r.precio),
                   }))
@@ -859,5 +867,5 @@ export default function CompactFacturaViewPage({
         </CardContent>
       </Card> */}
     </div>
-  );
+  )
 }

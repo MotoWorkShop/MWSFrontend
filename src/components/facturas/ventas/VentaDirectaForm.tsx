@@ -1,6 +1,8 @@
 'use client'
-
+// React and hooks
 import { useState, useEffect, useCallback } from 'react'
+
+// Form handling and validation
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
   useForm,
@@ -9,6 +11,8 @@ import {
   FormProvider,
 } from 'react-hook-form'
 import * as z from 'zod'
+
+// UI components
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -45,8 +49,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { fetchFilteredClientes, fetchFilteredRepuestos } from '@/lib/data'
-import { Cliente, Repuesto } from '@/lib/interfaces'
 import { Calendar } from '@/components/ui/calendar'
 import {
   Form,
@@ -55,6 +57,12 @@ import {
   FormControl,
   FormMessage,
 } from '@/components/ui/form'
+
+// Data fetching and interfaces
+import { fetchFilteredClientes, fetchFilteredRepuestos } from '@/lib/data'
+import { Cliente, Repuesto } from '@/lib/interfaces'
+
+// Validation schema
 import { ventaFormSchema } from '@/lib/zodSchemas'
 
 type FormValues = z.infer<typeof ventaFormSchema>

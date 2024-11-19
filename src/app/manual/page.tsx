@@ -1,6 +1,11 @@
 'use client'
-
+// React and state management
 import { useState } from 'react'
+
+// Next.js router
+import { useRouter } from 'next/navigation'
+
+// UI components
 import { Button } from '@/components/ui/button'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { Input } from '@/components/ui/input'
@@ -11,14 +16,15 @@ import {
   AccordionTrigger,
 } from '@/components/ui/accordion'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
+import { Alert, AlertDescription } from '@/components/ui/alert'
+
+// Icons
 import {
   Search,
-  ChevronRight,
   Users,
   Bike,
   Package,
   FileText,
-  Truck,
   Wrench,
   BarChart,
   Info,
@@ -27,8 +33,6 @@ import {
   AlertCircle,
   ArrowLeft,
 } from 'lucide-react'
-import { Alert, AlertDescription } from '@/components/ui/alert'
-import { useRouter } from 'next/navigation'
 
 export default function UserManual() {
   const [searchTerm, setSearchTerm] = useState('')

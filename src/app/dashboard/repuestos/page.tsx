@@ -1,10 +1,13 @@
 'use client'
 
+// React and Next.js hooks
 import { useState, useEffect } from 'react'
 import { useSearchParams } from 'next/navigation'
 
-// Components
+// Data fetching functions
 import { fetchAllRepuestos, fetchRepuestosPages } from '@/lib/data'
+
+// UI Components
 import Search from '@/components/Search'
 import Items from '@/components/Items'
 import Pagination from '@/components/Pagination'
@@ -17,11 +20,10 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card'
-import { Separator } from '@/components/ui/separator'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 
-// Función para formatear la moneda (asumiendo que ya tienes esta función)
+// Utility functions
 import { formatCurrency } from '@/lib/utils'
 
 export default function Page() {

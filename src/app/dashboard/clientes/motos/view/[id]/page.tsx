@@ -1,8 +1,13 @@
 'use client'
 
+// React and Next.js hooks
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+
+// Custom hooks
 import { useToast } from '@/components/ui/use-toast'
+
+// UI components
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -15,17 +20,17 @@ import { Separator } from '@/components/ui/separator'
 import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import { Bike, User, Wrench, CheckCircle, XCircle } from 'lucide-react'
+
+// Icons
+import { Bike, User, Wrench } from 'lucide-react'
+
+// Data fetching functions
 import { fetchOneMotoCliente } from '@/lib/data'
+
+// Interfaces
 import { OrdenServicio } from '@/lib/interfaces'
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from '@/components/ui/dialog'
+
+// Utility functions
 import { formatCurrency, formatDate } from '@/lib/utils'
 
 export default function ViewMotoClientePage({

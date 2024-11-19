@@ -1,28 +1,33 @@
-"use client";
+'use client'
 
-import { useState, useEffect, useCallback } from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
+// React and hooks
+import { useState, useEffect, useCallback } from 'react'
+
+// Form handling and validation
+import { zodResolver } from '@hookform/resolvers/zod'
 import {
   useForm,
   useFieldArray,
   Controller,
   FormProvider,
-} from "react-hook-form";
-import * as z from "zod";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+} from 'react-hook-form'
+import * as z from 'zod'
+
+// UI components
+import { Button } from '@/components/ui/button'
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
+import { Label } from '@/components/ui/label'
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Textarea } from "@/components/ui/textarea";
-import { toast } from "@/components/ui/use-toast";
+} from '@/components/ui/select'
+import { Checkbox } from '@/components/ui/checkbox'
+import { Textarea } from '@/components/ui/textarea'
+import { toast } from '@/components/ui/use-toast'
 import {
   CalendarIcon,
   Minus,
@@ -31,14 +36,14 @@ import {
   User,
   Phone,
   CreditCard,
-} from "lucide-react";
-import { format } from "date-fns";
-import { cn, formatCurrency, formatName } from "@/lib/utils";
+} from 'lucide-react'
+import { format } from 'date-fns'
+import { cn, formatCurrency, formatName } from '@/lib/utils'
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
+} from '@/components/ui/popover'
 import {
   Table,
   TableBody,
@@ -46,50 +51,54 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import {
-  fetchFilteredMotosClientes,
-  fetchFilteredRepuestos,
-  fetchFilteredServicios,
-} from "@/lib/data";
-import { MotoCliente, Repuesto, Servicio } from "@/lib/interfaces";
-import { Calendar } from "@/components/ui/calendar";
+} from '@/components/ui/table'
+import { Calendar } from '@/components/ui/calendar'
 import {
   Form,
   FormField,
   FormItem,
   FormControl,
   FormMessage,
-} from "@/components/ui/form";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { ordenServicioFormSchema } from "@/lib/zodSchemas";
+} from '@/components/ui/form'
+import { ScrollArea } from '@/components/ui/scroll-area'
 
-type FormValues = z.infer<typeof ordenServicioFormSchema>;
+// Data fetching and interfaces
+import {
+  fetchFilteredMotosClientes,
+  fetchFilteredRepuestos,
+  fetchFilteredServicios,
+} from '@/lib/data'
+import { MotoCliente, Repuesto, Servicio } from '@/lib/interfaces'
+
+// Form schema
+import { ordenServicioFormSchema } from '@/lib/zodSchemas'
+
+type FormValues = z.infer<typeof ordenServicioFormSchema>
 
 interface OrdenServicioFormProps {
-  initialData?: any;
-  onSubmit: (data: FormValues) => Promise<void>;
+  initialData?: any
+  onSubmit: (data: FormValues) => Promise<void>
 }
 
 export default function OrdenServicioForm({
   initialData,
   onSubmit,
 }: OrdenServicioFormProps) {
-  const [motoSearch, setMotoSearch] = useState("");
-  const [repuestoSearch, setRepuestoSearch] = useState("");
-  const [servicioSearch, setServicioSearch] = useState("");
-  const [motos, setMotos] = useState<MotoCliente[]>([]);
-  const [repuestos, setRepuestos] = useState<Repuesto[]>([]);
-  const [servicios, setServicios] = useState<Servicio[]>([]);
-  const [selectedMoto, setSelectedMoto] = useState<MotoCliente | null>(null);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [discountPercentage, setDiscountPercentage] = useState(0);
+  const [motoSearch, setMotoSearch] = useState('')
+  const [repuestoSearch, setRepuestoSearch] = useState('')
+  const [servicioSearch, setServicioSearch] = useState('')
+  const [motos, setMotos] = useState<MotoCliente[]>([])
+  const [repuestos, setRepuestos] = useState<Repuesto[]>([])
+  const [servicios, setServicios] = useState<Servicio[]>([])
+  const [selectedMoto, setSelectedMoto] = useState<MotoCliente | null>(null)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [discountPercentage, setDiscountPercentage] = useState(0)
   const [formattedServicioPrices, setFormattedServicioPrices] = useState<
     string[]
-  >([]);
-  const [ivaPercentage, setIvaPercentage] = useState(19);
-  const [cashReceived, setCashReceived] = useState(0);
-  const [changeAmount, setChangeAmount] = useState(0);
+  >([])
+  const [ivaPercentage, setIvaPercentage] = useState(19)
+  const [cashReceived, setCashReceived] = useState(0)
+  const [changeAmount, setChangeAmount] = useState(0)
 
   const form = useForm<FormValues>({
     resolver: zodResolver(ordenServicioFormSchema),
@@ -120,26 +129,26 @@ export default function OrdenServicioForm({
         }
       : {
           fecha: new Date(),
-          estado: "PENDIENTE",
+          estado: 'PENDIENTE',
           subtotal: 0,
           descuento: 0,
           iva: 0,
           total: 0,
           guardar_cascos: false,
           guardar_papeles: false,
-          observaciones: "",
-          observaciones_mecanico: "",
-          observaciones_factura: "",
-          mecanico: "",
+          observaciones: '',
+          observaciones_mecanico: '',
+          observaciones_factura: '',
+          mecanico: '',
           id_moto_cliente: 0,
           servicios: [],
           repuestos: [],
-          vendedor: localStorage.getItem("userName"),
+          vendedor: localStorage.getItem('userName'),
           adelanto_efectivo: 0,
           adelanto_tarjeta: 0,
           adelanto_transferencia: 0,
         },
-  });
+  })
 
   const {
     fields: serviciosFields,
@@ -147,8 +156,8 @@ export default function OrdenServicioForm({
     remove: removeServicio,
   } = useFieldArray({
     control: form.control,
-    name: "servicios",
-  });
+    name: 'servicios',
+  })
 
   const {
     fields: repuestosFields,
@@ -156,155 +165,155 @@ export default function OrdenServicioForm({
     remove: removeRepuesto,
   } = useFieldArray({
     control: form.control,
-    name: "repuestos",
-  });
+    name: 'repuestos',
+  })
 
   useEffect(() => {
     if (initialData) {
       if (initialData.moto_cliente) {
-        setSelectedMoto(initialData.moto_cliente);
+        setSelectedMoto(initialData.moto_cliente)
       }
       if (initialData.subtotal && initialData.descuento) {
         const subtotalSinDescuento =
-          parseFloat(initialData.subtotal) + parseFloat(initialData.descuento);
+          parseFloat(initialData.subtotal) + parseFloat(initialData.descuento)
         const calculatedPercentage =
-          (parseFloat(initialData.descuento) / subtotalSinDescuento) * 100;
-        setDiscountPercentage(Number(calculatedPercentage.toFixed(2)));
+          (parseFloat(initialData.descuento) / subtotalSinDescuento) * 100
+        setDiscountPercentage(Number(calculatedPercentage.toFixed(2)))
       }
       if (initialData.repuestos) {
         const repuestosTotal = initialData.repuestos.reduce(
           (acc, r) => acc + r.precio * r.cantidad,
           0
-        );
+        )
         if (repuestosTotal > 0) {
           const calculatedIvaPercentage =
-            ((initialData.iva || 0) / repuestosTotal) * 100;
-          setIvaPercentage(Number(calculatedIvaPercentage.toFixed(2)));
+            ((initialData.iva || 0) / repuestosTotal) * 100
+          setIvaPercentage(Number(calculatedIvaPercentage.toFixed(2)))
         } else {
-          setIvaPercentage(0);
+          setIvaPercentage(0)
         }
       } else {
-        setIvaPercentage(19); // Valor por defecto si no hay repuestos
+        setIvaPercentage(19) // Valor por defecto si no hay repuestos
       }
     }
-  }, [initialData]);
+  }, [initialData])
 
   const searchMotos = useCallback(async () => {
-    const results = await fetchFilteredMotosClientes(motoSearch, 1, 50);
-    setMotos(results);
-  }, [motoSearch]);
+    const results = await fetchFilteredMotosClientes(motoSearch, 1, 50)
+    setMotos(results)
+  }, [motoSearch])
 
   const searchRepuestos = useCallback(async () => {
-    const results = await fetchFilteredRepuestos(repuestoSearch, 1, 50);
-    setRepuestos(results);
-  }, [repuestoSearch]);
+    const results = await fetchFilteredRepuestos(repuestoSearch, 1, 50)
+    setRepuestos(results)
+  }, [repuestoSearch])
 
   const searchServicios = useCallback(async () => {
-    const results = await fetchFilteredServicios(servicioSearch, 1, 50);
-    setServicios(results);
-  }, [servicioSearch]);
+    const results = await fetchFilteredServicios(servicioSearch, 1, 50)
+    setServicios(results)
+  }, [servicioSearch])
 
   useEffect(() => {
-    if (motoSearch) searchMotos();
-  }, [motoSearch, searchMotos]);
+    if (motoSearch) searchMotos()
+  }, [motoSearch, searchMotos])
 
   useEffect(() => {
-    if (repuestoSearch) searchRepuestos();
-  }, [repuestoSearch, searchRepuestos]);
+    if (repuestoSearch) searchRepuestos()
+  }, [repuestoSearch, searchRepuestos])
 
   useEffect(() => {
-    if (servicioSearch) searchServicios();
-  }, [servicioSearch, searchServicios]);
+    if (servicioSearch) searchServicios()
+  }, [servicioSearch, searchServicios])
 
   const calculateSubtotal = useCallback(() => {
     const repuestosTotal = form
-      .watch("repuestos")
-      .reduce((acc, repuesto) => acc + repuesto.precio * repuesto.cantidad, 0);
+      .watch('repuestos')
+      .reduce((acc, repuesto) => acc + repuesto.precio * repuesto.cantidad, 0)
     const serviciosTotal = form
-      .watch("servicios")
-      .reduce((acc, servicio) => acc + servicio.precio, 0);
-    return { repuestosTotal, serviciosTotal };
-  }, [form]);
+      .watch('servicios')
+      .reduce((acc, servicio) => acc + servicio.precio, 0)
+    return { repuestosTotal, serviciosTotal }
+  }, [form])
 
   const updateCalculations = useCallback(() => {
-    const { repuestosTotal, serviciosTotal } = calculateSubtotal();
+    const { repuestosTotal, serviciosTotal } = calculateSubtotal()
     const subtotalBeforeDiscount =
-      Math.round((repuestosTotal + serviciosTotal) * 100) / 100;
+      Math.round((repuestosTotal + serviciosTotal) * 100) / 100
     const discountValue =
       Math.round(subtotalBeforeDiscount * (discountPercentage / 100) * 100) /
-        100 || 0;
-    const subtotalAfterDiscount = subtotalBeforeDiscount - discountValue;
-    const iva = Math.round(repuestosTotal * (ivaPercentage / 100) * 100) / 100;
-    const total = Math.round((subtotalAfterDiscount + iva) * 100) / 100;
-    form.setValue("subtotal", subtotalAfterDiscount);
-    form.setValue("descuento", discountValue);
-    form.setValue("iva", iva);
-    form.setValue("total", total);
-  }, [calculateSubtotal, form, discountPercentage, ivaPercentage]);
+        100 || 0
+    const subtotalAfterDiscount = subtotalBeforeDiscount - discountValue
+    const iva = Math.round(repuestosTotal * (ivaPercentage / 100) * 100) / 100
+    const total = Math.round((subtotalAfterDiscount + iva) * 100) / 100
+    form.setValue('subtotal', subtotalAfterDiscount)
+    form.setValue('descuento', discountValue)
+    form.setValue('iva', iva)
+    form.setValue('total', total)
+  }, [calculateSubtotal, form, discountPercentage, ivaPercentage])
 
   useEffect(() => {
-    updateCalculations();
+    updateCalculations()
   }, [
-    form.watch("repuestos"),
-    form.watch("servicios"),
+    form.watch('repuestos'),
+    form.watch('servicios'),
     discountPercentage,
     ivaPercentage,
     updateCalculations,
-  ]);
+  ])
 
   const handleCashReceivedChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = parseFloat(e.target.value);
-    setCashReceived(value);
-    const change = value - form.watch("total");
-    setChangeAmount(change > 0 ? change : 0);
+    const value = parseFloat(e.target.value)
+    setCashReceived(value)
+    const change = value - form.watch('total')
+    setChangeAmount(change > 0 ? change : 0)
     if (change >= 0) {
-      form.setValue("adelanto_efectivo", form.watch("total"));
+      form.setValue('adelanto_efectivo', form.watch('total'))
     } else {
-      form.setValue("adelanto_efectivo", value);
+      form.setValue('adelanto_efectivo', value)
     }
-  };
+  }
 
   const handleSubmit = async (values: FormValues) => {
-    setIsSubmitting(true);
+    setIsSubmitting(true)
     const totalPagos =
       Number(values.adelanto_efectivo) +
       Number(values.adelanto_tarjeta) +
-      Number(values.adelanto_transferencia);
+      Number(values.adelanto_transferencia)
 
-    if (!initialData && values.estado !== "PENDIENTE") {
+    if (!initialData && values.estado !== 'PENDIENTE') {
       toast({
-        title: "Error",
+        title: 'Error',
         description:
-          "No se puede crear una orden de servicio con estado diferente a PENDIENTE.",
-        variant: "destructive",
-      });
-      setIsSubmitting(false);
-      return;
+          'No se puede crear una orden de servicio con estado diferente a PENDIENTE.',
+        variant: 'destructive',
+      })
+      setIsSubmitting(false)
+      return
     }
 
     if (
-      values.estado === "COMPLETADO" &&
+      values.estado === 'COMPLETADO' &&
       Math.abs(totalPagos - values.total) > 0.01
     ) {
       toast({
-        title: "Error",
+        title: 'Error',
         description:
-          "El total de los adelantos debe ser igual al total de la orden.",
-        variant: "destructive",
-      });
-      setIsSubmitting(false);
-      return;
+          'El total de los adelantos debe ser igual al total de la orden.',
+        variant: 'destructive',
+      })
+      setIsSubmitting(false)
+      return
     }
 
-    if (values.estado === "CANCELADO" && totalPagos > 0) {
+    if (values.estado === 'CANCELADO' && totalPagos > 0) {
       toast({
-        title: "Error",
+        title: 'Error',
         description:
-          "No se puede cancelar una orden de servicio con pagos registrados.",
-        variant: "destructive",
-      });
-      setIsSubmitting(false);
-      return;
+          'No se puede cancelar una orden de servicio con pagos registrados.',
+        variant: 'destructive',
+      })
+      setIsSubmitting(false)
+      return
     }
 
     try {
@@ -320,41 +329,41 @@ export default function OrdenServicioForm({
         observaciones_factura:
           values.observaciones_factura[0].toUpperCase() +
           values.observaciones_factura.slice(1).toLowerCase(),
-      };
-      await onSubmit(data);
+      }
+      await onSubmit(data)
     } catch (error) {
-      console.error("Error:", error);
+      console.error('Error:', error)
       toast({
-        title: "Error",
+        title: 'Error',
         description:
-          "Hubo un problema al procesar la orden de servicio. Por favor, intente de nuevo.",
-        variant: "destructive",
-      });
+          'Hubo un problema al procesar la orden de servicio. Por favor, intente de nuevo.',
+        variant: 'destructive',
+      })
     } finally {
-      setIsSubmitting(false);
+      setIsSubmitting(false)
     }
-  };
+  }
 
   const handleDecimalInput = (value: string, fieldName: string) => {
-    const numericValue = value.replace(/[^0-9.]/g, "");
-    const parts = numericValue.split(".");
-    if (parts.length > 2) return;
-    if (parts[1] && parts[1].length > 2) parts[1] = parts[1].slice(0, 2);
-    const finalValue = parts.join(".");
-    form.setValue(fieldName as any, parseFloat(finalValue) || 0);
-  };
+    const numericValue = value.replace(/[^0-9.]/g, '')
+    const parts = numericValue.split('.')
+    if (parts.length > 2) return
+    if (parts[1] && parts[1].length > 2) parts[1] = parts[1].slice(0, 2)
+    const finalValue = parts.join('.')
+    form.setValue(fieldName as any, parseFloat(finalValue) || 0)
+  }
 
   const handleServicioPriceChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     index: number
   ) => {
-    const value = e.target.value;
-    form.setValue(`servicios.${index}.precio`, Number(value));
-    const newFormattedPrices = [...formattedServicioPrices];
-    newFormattedPrices[index] = value ? formatCurrency(parseFloat(value)) : "";
-    setFormattedServicioPrices(newFormattedPrices);
-    updateCalculations();
-  };
+    const value = e.target.value
+    form.setValue(`servicios.${index}.precio`, Number(value))
+    const newFormattedPrices = [...formattedServicioPrices]
+    newFormattedPrices[index] = value ? formatCurrency(parseFloat(value)) : ''
+    setFormattedServicioPrices(newFormattedPrices)
+    updateCalculations()
+  }
 
   return (
     <FormProvider {...form}>
@@ -376,15 +385,15 @@ export default function OrdenServicioForm({
                         <Popover>
                           <PopoverTrigger asChild>
                             <Button
-                              variant={"outline"}
+                              variant={'outline'}
                               className={cn(
-                                "w-full justify-start text-left font-normal",
-                                !field.value && "text-muted-foreground"
+                                'w-full justify-start text-left font-normal',
+                                !field.value && 'text-muted-foreground'
                               )}
                             >
                               <CalendarIcon className="mr-2 h-4 w-4" />
                               {field.value ? (
-                                format(field.value, "PPP")
+                                format(field.value, 'PPP')
                               ) : (
                                 <span>Seleccionar fecha</span>
                               )}
@@ -405,9 +414,9 @@ export default function OrdenServicioForm({
                     <Label htmlFor="estado">Estado</Label>
                     <Select
                       onValueChange={(value) =>
-                        form.setValue("estado", value as any)
+                        form.setValue('estado', value as any)
                       }
-                      defaultValue={form.watch("estado")}
+                      defaultValue={form.watch('estado')}
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Seleccionar estado" />
@@ -439,13 +448,10 @@ export default function OrdenServicioForm({
                       onValueChange={(value) => {
                         const moto = motos.find(
                           (m) => m.id_moto_cliente === parseInt(value)
-                        );
+                        )
                         if (moto) {
-                          setSelectedMoto(moto);
-                          form.setValue(
-                            "id_moto_cliente",
-                            moto.id_moto_cliente
-                          );
+                          setSelectedMoto(moto)
+                          form.setValue('id_moto_cliente', moto.id_moto_cliente)
                         }
                       }}
                     >
@@ -458,7 +464,7 @@ export default function OrdenServicioForm({
                             key={moto.id_moto_cliente}
                             value={moto.id_moto_cliente.toString()}
                           >
-                            {moto.placa} - {moto.marca} {moto.modelo} -{" "}
+                            {moto.placa} - {moto.marca} {moto.modelo} -{' '}
                             {moto.cliente.nombre_cliente}
                           </SelectItem>
                         ))}
@@ -486,7 +492,7 @@ export default function OrdenServicioForm({
                       <div className="flex items-center space-x-2">
                         <span className="font-medium">Moto:</span>
                         <span>
-                          {selectedMoto.marca} {selectedMoto.modelo} -{" "}
+                          {selectedMoto.marca} {selectedMoto.modelo} -{' '}
                           {selectedMoto.placa} ({selectedMoto.ano})
                         </span>
                       </div>
@@ -553,17 +559,17 @@ export default function OrdenServicioForm({
                         onValueChange={(value) => {
                           const servicio = servicios.find(
                             (s) => s.id_servicio === parseInt(value)
-                          );
+                          )
                           if (servicio) {
                             appendServicio({
                               id_servicio: servicio.id_servicio,
                               nombre_servicio: servicio.nombre_servicio,
                               precio: 0,
-                            });
+                            })
                             setFormattedServicioPrices((prev) => [
                               ...prev,
-                              "$ 0",
-                            ]);
+                              '$ 0',
+                            ])
                           }
                         }}
                       >
@@ -612,8 +618,8 @@ export default function OrdenServicioForm({
                                           min="0"
                                           {...field}
                                           onChange={(e) => {
-                                            field.onChange(e);
-                                            handleServicioPriceChange(e, index);
+                                            field.onChange(e)
+                                            handleServicioPriceChange(e, index)
                                           }}
                                         />
                                         <div className="mt-1 text-sm text-gray-500">
@@ -632,10 +638,10 @@ export default function OrdenServicioForm({
                                 variant="ghost"
                                 size="icon"
                                 onClick={() => {
-                                  removeServicio(index);
+                                  removeServicio(index)
                                   setFormattedServicioPrices((prev) =>
                                     prev.filter((_, i) => i !== index)
-                                  );
+                                  )
                                 }}
                               >
                                 <Minus className="h-4 w-4" />
@@ -669,15 +675,15 @@ export default function OrdenServicioForm({
                         onValueChange={(value) => {
                           const repuesto = repuestos.find(
                             (r) => r.id_repuesto === parseInt(value)
-                          );
+                          )
                           if (repuesto) {
                             appendRepuesto({
                               id_repuesto: repuesto.id_repuesto,
                               nombre_repuesto: repuesto.nombre_repuesto,
                               cantidad: 1,
                               precio: Number(repuesto.valor_unitario),
-                            });
-                            updateCalculations();
+                            })
+                            updateCalculations()
                           }
                         }}
                       >
@@ -691,7 +697,7 @@ export default function OrdenServicioForm({
                                 key={repuesto.id_repuesto}
                                 value={repuesto.id_repuesto.toString()}
                               >
-                                {repuesto.nombre_repuesto} -{" "}
+                                {repuesto.nombre_repuesto} -{' '}
                                 {formatCurrency(
                                   Number(repuesto.valor_unitario) +
                                     Number(repuesto.valor_unitario * 0.19)
@@ -735,8 +741,8 @@ export default function OrdenServicioForm({
                                         onChange={(e) => {
                                           field.onChange(
                                             parseInt(e.target.value)
-                                          );
-                                          updateCalculations();
+                                          )
+                                          updateCalculations()
                                         }}
                                         className="w-16"
                                       />
@@ -763,8 +769,8 @@ export default function OrdenServicioForm({
                                 variant="ghost"
                                 size="sm"
                                 onClick={() => {
-                                  removeRepuesto(index);
-                                  updateCalculations();
+                                  removeRepuesto(index)
+                                  updateCalculations()
                                 }}
                               >
                                 <Minus className="h-4 w-4" />
@@ -803,9 +809,9 @@ export default function OrdenServicioForm({
                     type="number"
                     value={discountPercentage || 0}
                     onChange={(e) => {
-                      const value = parseFloat(e.target.value);
-                      setDiscountPercentage(isNaN(value) ? 0 : value);
-                      updateCalculations();
+                      const value = parseFloat(e.target.value)
+                      setDiscountPercentage(isNaN(value) ? 0 : value)
+                      updateCalculations()
                     }}
                     id="descuento_porcentaje"
                     min="0"
@@ -816,7 +822,7 @@ export default function OrdenServicioForm({
                 <div className="space-y-2">
                   <Label htmlFor="descuento">Valor del Descuento</Label>
                   <Input
-                    value={formatCurrency(form.watch("descuento"))}
+                    value={formatCurrency(form.watch('descuento'))}
                     id="descuento"
                     readOnly
                   />
@@ -824,7 +830,7 @@ export default function OrdenServicioForm({
                 <div className="space-y-2">
                   <Label htmlFor="subtotal">Subtotal</Label>
                   <Input
-                    value={formatCurrency(form.watch("subtotal"))}
+                    value={formatCurrency(form.watch('subtotal'))}
                     id="subtotal"
                     readOnly
                   />
@@ -837,9 +843,9 @@ export default function OrdenServicioForm({
                     type="number"
                     value={ivaPercentage}
                     onChange={(e) => {
-                      const value = parseFloat(e.target.value);
-                      setIvaPercentage(isNaN(value) ? 0 : value);
-                      updateCalculations();
+                      const value = parseFloat(e.target.value)
+                      setIvaPercentage(isNaN(value) ? 0 : value)
+                      updateCalculations()
                     }}
                     id="iva_porcentaje"
                     min="0"
@@ -850,7 +856,7 @@ export default function OrdenServicioForm({
                 <div className="space-y-2">
                   <Label htmlFor="iva">Valor del IVA (Solo Repuestos)</Label>
                   <Input
-                    value={formatCurrency(form.watch("iva"))}
+                    value={formatCurrency(form.watch('iva'))}
                     id="iva"
                     readOnly
                   />
@@ -858,7 +864,7 @@ export default function OrdenServicioForm({
                 <div className="space-y-2">
                   <Label htmlFor="total">Total</Label>
                   <Input
-                    value={formatCurrency(form.watch("total"))}
+                    value={formatCurrency(form.watch('total'))}
                     id="total"
                     readOnly
                   />
@@ -888,7 +894,7 @@ export default function OrdenServicioForm({
                 <div className="space-y-2">
                   <Label htmlFor="adelanto_efectivo">Pago en Efectivo</Label>
                   <Input
-                    value={formatCurrency(form.watch("adelanto_efectivo"))}
+                    value={formatCurrency(form.watch('adelanto_efectivo'))}
                     id="adelanto_efectivo"
                     readOnly
                   />
@@ -896,16 +902,16 @@ export default function OrdenServicioForm({
                 <div className="space-y-2">
                   <Label htmlFor="adelanto_tarjeta">Pago con Tarjeta</Label>
                   <Input
-                    value={form.watch("adelanto_tarjeta")}
+                    value={form.watch('adelanto_tarjeta')}
                     onChange={(e) =>
-                      handleDecimalInput(e.target.value, "adelanto_tarjeta")
+                      handleDecimalInput(e.target.value, 'adelanto_tarjeta')
                     }
                     id="adelanto_tarjeta"
                     type="text"
                     inputMode="decimal"
                   />
                   <div className="text-sm text-muted-foreground">
-                    {formatCurrency(form.watch("adelanto_tarjeta"))}
+                    {formatCurrency(form.watch('adelanto_tarjeta'))}
                   </div>
                 </div>
                 <div className="space-y-2">
@@ -913,11 +919,11 @@ export default function OrdenServicioForm({
                     Pago por Transferencia
                   </Label>
                   <Input
-                    value={form.watch("adelanto_transferencia")}
+                    value={form.watch('adelanto_transferencia')}
                     onChange={(e) =>
                       handleDecimalInput(
                         e.target.value,
-                        "adelanto_transferencia"
+                        'adelanto_transferencia'
                       )
                     }
                     id="adelanto_transferencia"
@@ -925,7 +931,7 @@ export default function OrdenServicioForm({
                     inputMode="decimal"
                   />
                   <div className="text-sm text-muted-foreground">
-                    {formatCurrency(form.watch("adelanto_transferencia"))}
+                    {formatCurrency(form.watch('adelanto_transferencia'))}
                   </div>
                 </div>
               </div>
@@ -1035,16 +1041,16 @@ export default function OrdenServicioForm({
             {isSubmitting ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                {initialData ? "Actualizando Orden..." : "Creando Orden..."}
+                {initialData ? 'Actualizando Orden...' : 'Creando Orden...'}
               </>
             ) : initialData ? (
-              "Actualizar Orden de Servicio"
+              'Actualizar Orden de Servicio'
             ) : (
-              "Crear Orden de Servicio"
+              'Crear Orden de Servicio'
             )}
           </Button>
         </form>
       </Form>
     </FormProvider>
-  );
+  )
 }

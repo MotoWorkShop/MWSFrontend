@@ -1,11 +1,16 @@
-"use client";
+'use client'
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
-import { Button } from "@/components/ui/button";
+// React and Next.js hooks
+import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+
+// React Hook Form and Zod
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import * as z from 'zod'
+
+// UI components
+import { Button } from '@/components/ui/button'
 import {
   Form,
   FormControl,
@@ -13,85 +18,87 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
-import { useToast } from "@/components/ui/use-toast";
+} from '@/components/ui/form'
+import { Input } from '@/components/ui/input'
+import { useToast } from '@/components/ui/use-toast'
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { servicioSchema } from "@/lib/zodSchemas";
-import { Servicio } from "@/lib/interfaces";
-import { createServicio, updateServicio } from "@/lib/actions";
-import { Separator } from "@/components/ui/separator";
-import { ArrowLeft } from "lucide-react";
-import { formatName } from "@/lib/utils";
+} from '@/components/ui/card'
+import { Separator } from '@/components/ui/separator'
+import { ArrowLeft } from 'lucide-react'
+
+// Schemas, interfaces, and utility functions
+import { servicioSchema } from '@/lib/zodSchemas'
+import { Servicio } from '@/lib/interfaces'
+import { createServicio, updateServicio } from '@/lib/actions'
+import { formatName } from '@/lib/utils'
 
 export default function ServicioForm({
   servicio,
 }: {
-  servicio: Servicio | null;
+  servicio: Servicio | null
 }) {
-  const router = useRouter();
-  const { toast } = useToast();
-  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter()
+  const { toast } = useToast()
+  const [isLoading, setIsLoading] = useState(false)
 
   const form = useForm<z.infer<typeof servicioSchema>>({
     resolver: zodResolver(servicioSchema),
     defaultValues: {
-      nombre_servicio: "",
+      nombre_servicio: '',
     },
-  });
+  })
 
-  const { reset } = form;
+  const { reset } = form
 
   useEffect(() => {
     if (servicio) {
       reset({
-        nombre_servicio: servicio.nombre_servicio || "",
-      });
+        nombre_servicio: servicio.nombre_servicio || '',
+      })
     }
-  }, [servicio, reset]);
+  }, [servicio, reset])
 
   async function onSubmit(values: z.infer<typeof servicioSchema>) {
-    console.log("Intentando enviar el formulario con los datos:", values);
-    setIsLoading(true);
+    console.log('Intentando enviar el formulario con los datos:', values)
+    setIsLoading(true)
 
     const data = {
       ...values,
       nombre_servicio: formatName(values.nombre_servicio),
-    };
-    console.log("Datos a enviar:", data);
+    }
+    console.log('Datos a enviar:', data)
 
     try {
       if (servicio) {
-        await updateServicio(servicio.id_servicio, data);
+        await updateServicio(servicio.id_servicio, data)
         toast({
-          title: "Servicio actualizado",
-          description: "El servicio fue actualizado correctamente. ✅",
-        });
+          title: 'Servicio actualizado',
+          description: 'El servicio fue actualizado correctamente. ✅',
+        })
       } else {
-        await createServicio(data);
+        await createServicio(data)
         toast({
-          title: "Servicio creado",
-          description: "El servicio fue creado correctamente. ✅",
-        });
+          title: 'Servicio creado',
+          description: 'El servicio fue creado correctamente. ✅',
+        })
       }
 
-      router.push("/dashboard/servicios"); // Redirige a la lista de motos mercado
+      router.push('/dashboard/servicios') // Redirige a la lista de motos mercado
     } catch (error) {
-      console.error(error);
+      console.error(error)
 
       toast({
-        title: "Error",
+        title: 'Error',
         description: error.message,
-        variant: "destructive",
-      });
+        variant: 'destructive',
+      })
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
   }
 
@@ -101,20 +108,20 @@ export default function ServicioForm({
         <Card className="w-full max-w-md">
           <CardHeader>
             <CardTitle>
-              {servicio ? "Editar Servicio" : "Agregar Servicio"}
+              {servicio ? 'Editar Servicio' : 'Agregar Servicio'}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <Form {...form}>
               <form
                 onSubmit={async (e) => {
-                  e.preventDefault();
-                  console.log("Intentando enviar el formulario");
+                  e.preventDefault()
+                  console.log('Intentando enviar el formulario')
 
-                  await form.handleSubmit(onSubmit)(); // Ejecuta la validación y la función onSubmit si es válida
+                  await form.handleSubmit(onSubmit)() // Ejecuta la validación y la función onSubmit si es válida
 
-                  const errors = form.formState.errors;
-                  console.log("Errores de validación:", errors); // Imprimir errores de validación
+                  const errors = form.formState.errors
+                  console.log('Errores de validación:', errors) // Imprimir errores de validación
                 }}
                 className="space-y-8"
               >
@@ -144,22 +151,22 @@ export default function ServicioForm({
                 >
                   {isLoading
                     ? servicio
-                      ? "Actualizando..."
-                      : "Creando..."
+                      ? 'Actualizando...'
+                      : 'Creando...'
                     : servicio
-                    ? "Actualizar Servicio"
-                    : "Agregar Servicio"}
+                    ? 'Actualizar Servicio'
+                    : 'Agregar Servicio'}
                 </Button>
               </form>
             </Form>
           </CardContent>
           <CardFooter>
-            <Button onClick={() => router.push("/dashboard/servicios")}>
+            <Button onClick={() => router.push('/dashboard/servicios')}>
               <ArrowLeft className="mr-2 h-4 w-4" /> Volver
             </Button>
           </CardFooter>
         </Card>
       </div>
     </div>
-  );
+  )
 }

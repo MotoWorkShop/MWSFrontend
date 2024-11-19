@@ -1,7 +1,10 @@
 'use client'
 
+// React and Next.js hooks
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+
+// UI components
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
@@ -15,7 +18,11 @@ import {
 } from '@/components/ui/table'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { useToast } from '@/components/ui/use-toast'
+
+// Icons
 import { ArrowLeft, Barcode, Bike, DollarSign, Wrench } from 'lucide-react'
+
+// Data fetching and utilities
 import { fetchOneMotoRepuesto } from '@/lib/data'
 import { formatCurrency } from '@/lib/utils'
 

@@ -1,6 +1,10 @@
 'use client'
 
+// React and Next.js hooks
 import { useState, useEffect, useMemo } from 'react'
+import { useRouter } from 'next/navigation'
+
+// UI components
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -20,7 +24,10 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
+import { Separator } from '@/components/ui/separator'
 import { toast } from '@/components/ui/use-toast'
+
+// Date-fns utilities
 import {
   format,
   subDays,
@@ -35,7 +42,13 @@ import {
   isBefore,
   isEqual,
 } from 'date-fns'
-import { Line, Bar, Pie } from 'react-chartjs-2'
+
+// Chart.js components
+import {
+  Line,
+  Bar,
+  Pie
+} from 'react-chartjs-2'
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -48,6 +61,8 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js'
+
+// Icons
 import {
   Download,
   DollarSign,
@@ -59,11 +74,12 @@ import {
   Package,
   Eye,
 } from 'lucide-react'
+
+// Utility functions and data fetching
 import { formatCurrency } from '@/lib/utils'
 import { fetchAllFacturas } from '@/lib/data'
-import { useRouter } from 'next/navigation'
-import { Separator } from '@/components/ui/separator'
 
+// Next.js Link component
 import Link from 'next/link'
 
 ChartJS.register(

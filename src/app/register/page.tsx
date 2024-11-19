@@ -1,10 +1,15 @@
 "use client";
 
+// React and Next.js imports
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+
+// Form handling and validation imports
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+
+// UI components imports
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -16,8 +21,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
-import { Eye, EyeOff, User, Mail, Lock, UserCog } from "lucide-react";
-import Image from "next/image";
 import {
   Select,
   SelectContent,
@@ -25,7 +28,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+
+// Icon imports
+import { Eye, EyeOff, User, Mail, Lock, UserCog } from "lucide-react";
+
+// Image and animation imports
+import Image from "next/image";
 import { motion } from "framer-motion";
+
+// Utility functions imports
 import { formatName } from "@/lib/utils";
 
 const formSchema = z.object({

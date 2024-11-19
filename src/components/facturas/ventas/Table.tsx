@@ -1,6 +1,11 @@
 'use client'
 
+// React and Next.js imports
 import { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import Link from 'next/link'
+
+// UI components
 import {
   Table,
   TableBody,
@@ -17,6 +22,26 @@ import {
   PopoverTrigger,
 } from '@/components/ui/popover'
 import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog'
+import TableSkeleton from '@/components/skeletons'
+
+// Icons
+import {
   ChevronDown,
   ChevronsUpDown,
   Calendar,
@@ -29,20 +54,12 @@ import {
   Trash2,
   Loader2,
 } from 'lucide-react'
+import { NumberedListIcon } from '@heroicons/react/24/outline'
+
+// Utility functions and hooks
 import { cn, formatCurrency, formatDate } from '@/lib/utils'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip'
 import { fetchFilteredVentas } from '@/lib/data'
 import { useToast } from '@/components/ui/use-toast'
-import TableSkeleton from '@/components/skeletons'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog'
-import { NumberedListIcon } from '@heroicons/react/24/outline'
 
 export default function VentaDirectaTable({ query, currentPage, limit }) {
   const [ventas, setVentas] = useState([])

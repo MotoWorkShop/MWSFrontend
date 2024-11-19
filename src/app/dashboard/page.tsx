@@ -1,11 +1,15 @@
 'use client'
-
+// React and Next.js imports
 import { useState } from 'react'
+import Link from 'next/link'
+
+// UI components
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+
+// Icons
 import {
-  Search,
   Users,
   FileText,
   Bike,
@@ -16,7 +20,6 @@ import {
   ClipboardCheckIcon,
   Origami,
 } from 'lucide-react'
-import Link from 'next/link'
 
 export default function Dashboard() {
   const [searchTerm, setSearchTerm] = useState('')
@@ -109,10 +112,10 @@ export default function Dashboard() {
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground mb-4">{card.description}</p>
-             <Link href={`${card.link}`}>
-              <Button variant="outline" className="w-full">
-                Ir a {card.title} <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
+              <Link href={`${card.link}`}>
+                <Button variant="outline" className="w-full">
+                  Ir a {card.title} <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
               </Link>
             </CardContent>
           </Card>

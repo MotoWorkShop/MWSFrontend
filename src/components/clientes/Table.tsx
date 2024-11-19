@@ -1,6 +1,9 @@
 'use client'
 
+// React and hooks
 import { useEffect, useState } from 'react'
+
+// UI components
 import {
   Table,
   TableBody,
@@ -9,10 +12,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { fetchFilteredClientes } from '@/lib/data'
-import { Cliente } from '@/lib/interfaces'
-import { ViewEditDeleteBtn } from '../ViewEditDeleteBtn'
-import TableSkeleton from '../skeletons'
 import { Badge } from '@/components/ui/badge'
 import {
   Tooltip,
@@ -22,8 +21,18 @@ import {
 } from '@/components/ui/tooltip'
 import { Mail, Phone, User, ChevronsUpDown } from 'lucide-react'
 import { motion } from 'framer-motion'
+
+// Utility functions and hooks
+import { fetchFilteredClientes } from '@/lib/data'
 import { useToast } from '@/components/ui/use-toast'
 import { cn } from '@/lib/utils'
+
+// Interfaces
+import { Cliente } from '@/lib/interfaces'
+
+// Custom components
+import { ViewEditDeleteBtn } from '../ViewEditDeleteBtn'
+import TableSkeleton from '../skeletons'
 
 interface ClientesTableProps {
   query: string

@@ -1,6 +1,9 @@
 'use client'
 
+// React and hooks
 import { useEffect, useState } from 'react'
+
+// UI components
 import {
   Table,
   TableBody,
@@ -9,10 +12,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { ViewEditDeleteBtn } from '../ViewEditDeleteBtn'
-import TableSkeleton from '../skeletons'
-import { Repuesto } from '@/lib/interfaces'
-import { fetchFilteredRepuestos } from '@/lib/data'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -20,6 +19,14 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover'
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
+
+// Icons
 import {
   ChevronDown,
   ChevronsUpDown,
@@ -31,13 +38,17 @@ import {
   Boxes,
   Bike,
 } from 'lucide-react'
+
+// Utility functions
 import { cn } from '@/lib/utils'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip'
+
+// Custom components
+import { ViewEditDeleteBtn } from '../ViewEditDeleteBtn'
+import TableSkeleton from '../skeletons'
+
+// Interfaces and data fetching
+import { Repuesto } from '@/lib/interfaces'
+import { fetchFilteredRepuestos } from '@/lib/data'
 
 interface RepuestosTableProps {
   query: string

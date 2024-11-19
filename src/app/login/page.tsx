@@ -1,11 +1,18 @@
 'use client'
 
+// React and Next.js imports
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+
+// Form handling imports
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
+
+// Cookie handling import
 import { setCookie } from 'nookies'
+
+// UI components imports
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -18,7 +25,11 @@ import {
 import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/use-toast'
 import { Checkbox } from '@/components/ui/checkbox'
+
+// Icon imports
 import { Eye, EyeOff, Mail, Lock } from 'lucide-react'
+
+// Image and animation imports
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 
@@ -108,7 +119,7 @@ export default function Login() {
       </div>
     )
   }
-  
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-orange-100 via-orange-200 to-orange-300">
       <motion.div

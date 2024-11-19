@@ -1,8 +1,13 @@
 'use client'
 
+// React and Next.js hooks
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
+
+// Custom hooks
 import { useToast } from '@/components/ui/use-toast'
+
+// UI components
 import { Button } from '@/components/ui/button'
 import {
   Card,
@@ -22,7 +27,11 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { ScrollArea } from '@/components/ui/scroll-area'
+
+// Icons
 import { ArrowLeft, Package, Bike, Truck } from 'lucide-react'
+
+// Data fetching and utility functions
 import { fetchOneRepuesto } from '@/lib/data'
 import { formatCurrency } from '@/lib/utils'
 

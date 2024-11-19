@@ -1,27 +1,19 @@
 'use client'
 
+// React and Next.js imports
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
+
+// UI components
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import { Badge } from '@/components/ui/badge'
 import { useToast } from '@/components/ui/use-toast'
 import { ViewEditDeleteBtn } from '@/components/ViewEditDeleteBtn'
-import { fetchOneCliente } from '@/lib/data'
-import { Cliente, MotoCliente, Factura, VentaDirecta } from '@/lib/interfaces'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { ScrollArea } from '@/components/ui/scroll-area'
-import {
-  User,
-  Bike,
-  Receipt,
-  ShoppingBag,
-  Calendar,
-  Search,
-  Filter,
-  Eye,
-} from 'lucide-react'
 import { Input } from '@/components/ui/input'
 import {
   Select,
@@ -30,7 +22,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-
 import {
   Dialog,
   DialogContent,
@@ -48,14 +39,31 @@ import {
   TableRow,
 } from '@/components/ui/table'
 import { Skeleton } from '@/components/ui/skeleton'
-import { formatCurrency } from '@/lib/utils'
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
-import Link from 'next/link'
+
+// Icons
+import {
+  User,
+  Bike,
+  Receipt,
+  ShoppingBag,
+  Calendar,
+  Search,
+  Filter,
+  Eye,
+} from 'lucide-react'
+
+// Utility functions and data fetching
+import { fetchOneCliente } from '@/lib/data'
+import { formatCurrency } from '@/lib/utils'
+
+// Interfaces
+import { Cliente, MotoCliente, Factura, VentaDirecta } from '@/lib/interfaces'
 
 export default function ViewClientePage({
   params,

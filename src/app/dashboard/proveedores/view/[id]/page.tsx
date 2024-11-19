@@ -11,7 +11,6 @@ import {
   CardFooter,
 } from '@/components/ui/card'
 import { fetchOneProveedor } from '@/lib/data'
-import { Proveedor } from '@/lib/interfaces'
 
 export default function ViewProveedorPage({
   params,

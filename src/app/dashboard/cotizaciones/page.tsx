@@ -1,9 +1,14 @@
 'use client'
 
+// React and hooks
 import React, { useState, useEffect, useCallback, useMemo } from 'react'
+
+// React Hook Form and Zod
 import { useForm, useFieldArray, FormProvider } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
+
+// UI components
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
@@ -17,7 +22,6 @@ import {
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
 import { Search, Printer, Minus, Plus, User, Mail, Phone } from 'lucide-react'
-import { cn, formatCurrency } from '@/lib/utils'
 import {
   Table,
   TableBody,
@@ -26,9 +30,6 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { fetchFilteredRepuestos, fetchFilteredServicios } from '@/lib/data'
-import { Repuesto, Servicio } from '@/lib/interfaces'
-import { COMPANY_INFO } from '@/lib/constants'
 import {
   FormField,
   FormItem,
@@ -36,6 +37,12 @@ import {
   FormControl,
   FormMessage,
 } from '@/components/ui/form'
+
+// Utility functions and constants
+import { cn, formatCurrency } from '@/lib/utils'
+import { fetchFilteredRepuestos, fetchFilteredServicios } from '@/lib/data'
+import { Repuesto, Servicio } from '@/lib/interfaces'
+import { COMPANY_INFO } from '@/lib/constants'
 import { toast } from '@/components/ui/use-toast'
 
 const formSchema = z.object({

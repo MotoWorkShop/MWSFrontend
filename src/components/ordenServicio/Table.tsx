@@ -1,6 +1,8 @@
 'use client'
-
+// React and hooks
 import { useEffect, useState } from 'react'
+
+// UI components
 import {
   Table,
   TableBody,
@@ -9,21 +11,33 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { fetchFilteredOrdenes } from '@/lib/data'
-import { ViewEditDeleteBtn } from '../ViewEditDeleteBtn'
-import TableSkeleton from '../skeletons'
-import { OrdenServicio } from '@/lib/interfaces'
 import { Badge } from '@/components/ui/badge'
-import { motion } from 'framer-motion'
-import { useToast } from '@/components/ui/use-toast'
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import { useToast } from '@/components/ui/use-toast'
+
+// Icons
 import { FileText, Calendar, Car, Activity, ChevronsUpDown } from 'lucide-react'
+
+// Utility functions
 import { cn, formatDate } from '@/lib/utils'
+
+// Data fetching
+import { fetchFilteredOrdenes } from '@/lib/data'
+
+// Interfaces
+import { OrdenServicio } from '@/lib/interfaces'
+
+// Other components
+import { ViewEditDeleteBtn } from '../ViewEditDeleteBtn'
+import TableSkeleton from '../skeletons'
+
+// Animation
+import { motion } from 'framer-motion'
 
 interface OrdenesServicioTableProps {
   query: string

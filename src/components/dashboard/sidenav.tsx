@@ -1,10 +1,17 @@
 'use client'
 
+// React imports
 import { useEffect, useState } from 'react'
+
+// Next.js imports
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { PowerIcon, X } from 'lucide-react'
 import Image from 'next/image'
+
+// Icon imports
+import { PowerIcon, X } from 'lucide-react'
+
+// Component imports
 import { Button } from '@/components/ui/button'
 import AdminNavLinks from './admin-nav-links'
 import VendedorNavLinks from './vendedor-nav-links'

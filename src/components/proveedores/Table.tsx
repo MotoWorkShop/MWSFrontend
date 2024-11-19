@@ -1,6 +1,8 @@
 'use client'
-
+// React and hooks
 import { useEffect, useState } from 'react'
+
+// UI components
 import {
   Table,
   TableBody,
@@ -9,21 +11,18 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table'
-import { ViewEditDeleteBtn } from '../ViewEditDeleteBtn'
-import TableSkeleton from '../skeletons'
-import { Proveedor } from '@/lib/interfaces'
-import { fetchFilteredProveedores } from '@/lib/data'
 import { Badge } from '@/components/ui/badge'
-import { format, parseISO } from 'date-fns'
-import { es } from 'date-fns/locale'
-import { motion } from 'framer-motion'
-import { useToast } from '@/components/ui/use-toast'
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/ui/tooltip'
+import { useToast } from '@/components/ui/use-toast'
+import TableSkeleton from '../skeletons'
+import { ViewEditDeleteBtn } from '../ViewEditDeleteBtn'
+
+// Icons
 import {
   Building2,
   CreditCard,
@@ -33,7 +32,16 @@ import {
   Clock,
   ChevronsUpDown,
 } from 'lucide-react'
+
+// Utilities
+import { format, parseISO } from 'date-fns'
+import { es } from 'date-fns/locale'
+import { motion } from 'framer-motion'
 import { cn } from '@/lib/utils'
+
+// Data and interfaces
+import { Proveedor } from '@/lib/interfaces'
+import { fetchFilteredProveedores } from '@/lib/data'
 
 interface ProveedoresTableProps {
   query: string

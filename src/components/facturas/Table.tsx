@@ -1,6 +1,10 @@
 'use client'
-
+// React and Next.js imports
 import { useEffect, useState } from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+
+// UI components
 import {
   Table,
   TableBody,
@@ -12,12 +16,26 @@ import {
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from '@/components/ui/popover'
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip'
 import {
-  ChevronDown,
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '../ui/alert-dialog'
+import TableSkeleton from '@/components/skeletons'
+
+// Icons
+import {
   ChevronsUpDown,
   Calendar,
   User,
@@ -30,30 +48,14 @@ import {
   Loader2,
   User2,
 } from 'lucide-react'
+
+// Utility functions
 import { cn, formatCurrency, formatDate } from '@/lib/utils'
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from '@/components/ui/tooltip'
 import { fetchFilteredFacturas } from '@/lib/data'
 import { useToast } from '@/components/ui/use-toast'
-import TableSkeleton from '@/components/skeletons'
-import Link from 'next/link'
-import { useRouter } from 'next/navigation'
+
+// Animation library
 import { motion } from 'framer-motion'
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from '../ui/alert-dialog'
 
 export default function EnhancedInvoiceTable({ query, currentPage, limit }) {
   const [facturas, setFacturas] = useState([])
@@ -130,7 +132,7 @@ export default function EnhancedInvoiceTable({ query, currentPage, limit }) {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       })
 
