@@ -65,7 +65,6 @@ export default function CompactFacturaViewPage({
     }
 
     fetchFactura()
-    console.log('A ver que traes', factura)
   }, [id, toast])
 
   const handlePrintThermal = () => {

@@ -165,7 +165,6 @@ export default function MotoMercadoForm({
                   const errors = form.formState.errors
                   console.log('Errores de validación:', errors) // Imprimir errores de validación
 
-                  // Aquí deberías verificar si errors.repuestos existe antes de acceder a su mensaje
                   if (errors.repuestos) {
                     const errorMessage = errors.repuestos.message
                     toast({
