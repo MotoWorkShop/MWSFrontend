@@ -291,6 +291,17 @@ export default function OrdenServicioForm({
       return
     }
 
+    if (initialData && values.estado !== 'PENDIENTE') {
+      toast({
+        title: 'Error',
+        description:
+          'No se puede editar una orden de servicio dejando el estado PENDIENTE.',
+        variant: 'destructive',
+      })
+      setIsSubmitting(false)
+      return
+    }
+
     if (
       values.estado === 'COMPLETADO' &&
       Math.abs(totalPagos - values.total) > 0.01
