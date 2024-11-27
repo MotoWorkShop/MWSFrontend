@@ -73,6 +73,9 @@ import { MotoCliente, Repuesto, Servicio } from '@/lib/interfaces'
 // Form schema
 import { ordenServicioFormSchema } from '@/lib/zodSchemas'
 
+//Alert
+import Swal from 'sweetalert2'
+
 type FormValues = z.infer<typeof ordenServicioFormSchema>
 
 interface OrdenServicioFormProps {
@@ -284,18 +287,29 @@ export default function OrdenServicioForm({
       toast({
         title: 'Error',
         description:
-          'No se puede crear una orden de servicio con estado diferente a PENDIENTE.',
+          'No se puede crear una orden de servicio con un estado diferente a PENDIENTE.',
         variant: 'destructive',
       })
       setIsSubmitting(false)
       return
     }
 
-    if (initialData && values.estado == 'PENDIENTE') {
+    if (initialData.estado == 'PENDIENTE' && values.estado == 'COMPLETADO') {
       toast({
         title: 'Error',
         description:
-          'No se puede editar una orden de servicio dejando el estado PENDIENTE.',
+          'No se puede pasar de estado PENDIENTE a COMPLETADO, debes cambiarlo primero a EN PROCESO.',
+        variant: 'destructive',
+      })
+      setIsSubmitting(false)
+      return
+    }
+
+    if (initialData.estado !== 'PENDIENTE' && values.estado == 'PENDIENTE') {
+      toast({
+        title: 'Error',
+        description:
+          'No se puede poner el estado PENDIENTE de una orden de servicio ya creada.',
         variant: 'destructive',
       })
       setIsSubmitting(false)
@@ -316,41 +330,49 @@ export default function OrdenServicioForm({
       return
     }
 
-    if (values.estado === 'CANCELADO' && totalPagos > 0) {
-      toast({
-        title: 'Error',
-        description:
-          'No se puede cancelar una orden de servicio con pagos registrados.',
-        variant: 'destructive',
-      })
-      setIsSubmitting(false)
-      return
-    }
-
     if (values.estado === 'COMPLETADO') {
-      if (
-        !confirm(
-          'Se completará la orden de servicio, se generará una factura y después no se podrá editar. ¿Desea continuar?'
-        )
-      ) {
+      let result = await Swal.fire({
+        title: '¿Está seguro?',
+        text: 'Se completará la orden de servicio, se generará una factura y después no se podrá editar. Asegúrate de agregar todos los repuestos y servicios necesarios. ¿Desea continuar?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, completar',
+        cancelButtonText: 'No, volver',
+      })
+      if (!result.isConfirmed) {
         setIsSubmitting(false)
         return
       }
     }
 
     if (values.estado === 'CANCELADO') {
-      if (
-        !confirm(
-          'Se cancelará la orden de servicio y después no se podrá editar. ¿Desea continuar?'
-        )
-      ) {
+      let result = await Swal.fire({
+        title: '¿Está seguro?',
+        text: 'Se cancelará la orden de servicio, se devolveran al inventario los repuestos y después no se podrá editar. ¿Desea continuar?',
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, cancelar',
+        cancelButtonText: 'No, volver',
+      })
+      if (!result.isConfirmed) {
         setIsSubmitting(false)
         return
+      } else {
+        let data = {
+          ...values,
+          adelanto_efectivo: 0,
+          adelanto_tarjeta: 0,
+          adelanto_transferencia: 0,
+          total: 0,
+          subtotal: 0,
+          descuento: 0,
+          iva: 0,
+        }
       }
     }
 
     try {
-      const data = {
+      let data = {
         ...values,
         mecanico: formatName(values.mecanico),
         observaciones: values.observaciones
