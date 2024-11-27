@@ -291,7 +291,7 @@ export default function OrdenServicioForm({
       return
     }
 
-    if (initialData && values.estado !== 'PENDIENTE') {
+    if (initialData && values.estado == 'PENDIENTE') {
       toast({
         title: 'Error',
         description:
