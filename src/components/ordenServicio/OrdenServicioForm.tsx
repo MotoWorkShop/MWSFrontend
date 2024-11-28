@@ -426,7 +426,7 @@ export default function OrdenServicioForm({
   return (
     <>
       <div className="p-2">
-        {initialData.estado === 'COMPLETADO' && (
+        {initialData?.estado === 'COMPLETADO' && (
           <div
             className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
             role="alert"
@@ -440,7 +440,7 @@ export default function OrdenServicioForm({
         )}
       </div>
       <div className="p-2">
-        {initialData.estado === 'CANCELADO' && (
+        {initialData?.estado === 'CANCELADO' && (
           <div
             className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative"
             role="alert"
@@ -454,8 +454,8 @@ export default function OrdenServicioForm({
         )}
       </div>
 
-      {(!initialData || initialData.estado == 'PENDIENTE' ||
-        initialData.estado == 'EN_PROCESO') && (
+      {(!initialData || initialData?.estado == 'PENDIENTE' ||
+        initialData?.estado == 'EN_PROCESO') && (
         <FormProvider {...form}>
           <Form {...form}>
             <form
