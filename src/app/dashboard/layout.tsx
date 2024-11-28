@@ -6,7 +6,7 @@ import Cookies from 'js-cookie'
 import SideNav from '@/components/dashboard/sidenav'
 import { MotoWorkShopLoader } from '@/components/MotoWorkShopLoader'
 import NotificationBubble from '@/components/NotificacionBubble'
-import { Menu } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 export default function DashboardLayout({
@@ -36,35 +36,59 @@ export default function DashboardLayout({
   }
 
   return (
-    <div className="flex h-screen overflow-hidden bg-gray-100">
+    <div className="flex h-screen flex-col overflow-hidden bg-gray-100 md:flex-row">
+      {/* Sidebar for mobile */}
       <div
-        className={`${
-          isSidebarOpen ? 'block' : 'hidden'
-        } md:block w-64 flex-shrink-0 bg-white`}
+        className={`fixed inset-0 z-50 transform bg-white transition-transform duration-300 ease-in-out md:hidden ${
+          isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
       >
-        <SideNav onClose={() => setIsSidebarOpen(false)} />
-      </div>
-      <div className="flex flex-1 flex-col overflow-hidden">
-        <header className="bg-white p-4 shadow-sm flex justify-between items-center">
+        <div className="flex h-16 items-center justify-between px-4">
+          <span className="text-lg font-semibold">Menu</span>
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="md:hidden"
+            onClick={() => setIsSidebarOpen(false)}
           >
-            <Menu className="h-6 w-6" />
-            <span className="sr-only">Toggle menu</span>
+            <X className="h-6 w-6" />
+            <span className="sr-only">Close menu</span>
           </Button>
-          <div className="flex-grow" />
-          {localStorage.getItem('userName') && (
-            <span className="mr-4 text-gray-700">
-              Bienvenido, <strong>{localStorage.getItem('userName')}</strong>
-            </span>
-          )}
-          <NotificationBubble />
+        </div>
+        <SideNav onClose={() => setIsSidebarOpen(false)} />
+      </div>
+
+      {/* Sidebar for tablet and desktop */}
+      <div className="hidden md:block md:w-64 md:flex-shrink-0 md:overflow-y-auto md:bg-white">
+        <SideNav onClose={() => setIsSidebarOpen(false)} />
+      </div>
+
+      <div className="flex flex-1 flex-col overflow-hidden">
+        <header className="bg-white p-4 shadow-sm">
+          <div className="flex items-center justify-between">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+              className="md:hidden"
+            >
+              <Menu className="h-6 w-6" />
+              <span className="sr-only">Toggle menu</span>
+            </Button>
+            <div className="flex items-center space-x-4 ml-auto">
+              {typeof window !== 'undefined' && localStorage.getItem('userName') && (
+                <span className="hidden text-sm text-gray-700 sm:inline-block">
+                  Bienvenido, <strong>{localStorage.getItem('userName')}</strong>
+                </span>
+              )}
+              <NotificationBubble />
+            </div>
+          </div>
         </header>
-        <main className="flex-1 overflow-auto">{children}</main>
+        <main className="flex-1 overflow-auto p-4 pb-16 md:pb-4">
+          <div className="mx-auto max-w-7xl">{children}</div>
+        </main>
       </div>
     </div>
   )
 }
+
