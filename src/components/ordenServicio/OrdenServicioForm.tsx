@@ -454,7 +454,7 @@ export default function OrdenServicioForm({
         )}
       </div>
 
-      {(initialData.estado == 'PENDIENTE' ||
+      {(!initialData || initialData.estado == 'PENDIENTE' ||
         initialData.estado == 'EN_PROCESO') && (
         <FormProvider {...form}>
           <Form {...form}>
