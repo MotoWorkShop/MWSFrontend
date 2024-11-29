@@ -36,10 +36,10 @@ export default function DashboardLayout({
   }
 
   return (
-    <div className="flex h-screen flex-col overflow-hidden bg-gray-100 md:flex-row">
+    <div className="flex h-screen overflow-hidden bg-gray-100">
       {/* Sidebar for mobile */}
       <div
-        className={`fixed inset-0 z-50 transform bg-white transition-transform duration-300 ease-in-out md:hidden ${
+        className={`fixed inset-y-0 left-0 z-50 w-64 transform bg-white transition-transform duration-300 ease-in-out md:hidden ${
           isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
         }`}
       >
@@ -54,7 +54,9 @@ export default function DashboardLayout({
             <span className="sr-only">Close menu</span>
           </Button>
         </div>
-        <SideNav onClose={() => setIsSidebarOpen(false)} />
+        <div className="h-[calc(100vh-4rem)] overflow-y-auto">
+          <SideNav onClose={() => setIsSidebarOpen(false)} />
+        </div>
       </div>
 
       {/* Sidebar for tablet and desktop */}
@@ -84,8 +86,10 @@ export default function DashboardLayout({
             </div>
           </div>
         </header>
-        <main className="flex-1 overflow-auto p-4 pb-16 md:pb-4">
-          <div className="mx-auto max-w-7xl">{children}</div>
+        <main className="flex-1 overflow-y-auto">
+          <div className="mx-auto max-w-7xl p-4 min-h-[calc(100vh-4rem)]">
+            {children}
+          </div>
         </main>
       </div>
     </div>

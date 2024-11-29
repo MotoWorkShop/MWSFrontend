@@ -69,7 +69,7 @@ export default function SideNav({ onClose }: SideNavProps) {
         {isAdmin ? <AdminNavLinks /> : <VendedorNavLinks />}
       </nav>
 
-      <div className="p-4">
+      <div className="p-4 sticky">
         <Button
           onClick={logout}
           className="w-full bg-orange-500 text-white hover:bg-orange-600"
