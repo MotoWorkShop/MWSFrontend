@@ -294,26 +294,37 @@ export default function OrdenServicioForm({
       return
     }
 
-    if (initialData.estado == 'PENDIENTE' && values.estado == 'COMPLETADO') {
-      toast({
-        title: 'Error',
-        description:
-          'No se puede pasar de estado PENDIENTE a COMPLETADO, debes cambiarlo primero a EN PROCESO.',
-        variant: 'destructive',
-      })
-      setIsSubmitting(false)
-      return
-    }
-
-    if (initialData.estado !== 'PENDIENTE' && values.estado == 'PENDIENTE') {
-      toast({
-        title: 'Error',
-        description:
-          'No se puede poner el estado PENDIENTE de una orden de servicio ya creada.',
-        variant: 'destructive',
-      })
-      setIsSubmitting(false)
-      return
+    if(initialData){
+      if (initialData.estado == 'PENDIENTE' && values.estado == 'PENDIENTE') {
+        toast({
+          title: 'Error',
+          description:
+            'No se puede actualizar de estado PENDIENTE a PENDIENTE, debes cambiarlo a EN PROCESO.',
+          variant: 'destructive',
+        })
+        setIsSubmitting(false)
+        return
+      }
+      if (initialData.estado == 'PENDIENTE' && values.estado == 'COMPLETADO') {
+        toast({
+          title: 'Error',
+          description:
+            'No se puede pasar de estado PENDIENTE a COMPLETADO, debes cambiarlo primero a EN PROCESO.',
+          variant: 'destructive',
+        })
+        setIsSubmitting(false)
+        return
+      }
+      if (initialData.estado !== 'PENDIENTE' && values.estado == 'PENDIENTE') {
+        toast({
+          title: 'Error',
+          description:
+            'No se puede poner el estado PENDIENTE de una orden de servicio ya creada.',
+          variant: 'destructive',
+        })
+        setIsSubmitting(false)
+        return
+      }
     }
 
     if (
@@ -907,7 +918,7 @@ export default function OrdenServicioForm({
                 )}
               </div>
 
-              <Card>
+             {initialData && (<Card>
                 <CardHeader>
                   <CardTitle>Detalles Financieros</CardTitle>
                 </CardHeader>
@@ -1063,7 +1074,7 @@ export default function OrdenServicioForm({
                     </div>
                   </div>
                 </CardContent>
-              </Card>
+              </Card>)}
 
               <Card>
                 <CardHeader>
