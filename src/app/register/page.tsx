@@ -1,15 +1,15 @@
 "use client";
 
-// React and Next.js imports
+// React and Next.js hooks
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 
-// Form handling and validation imports
+// Form handling and validation
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 
-// UI components imports
+// UI components
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -20,7 +20,6 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useToast } from "@/components/ui/use-toast";
 import {
   Select,
   SelectContent,
@@ -28,15 +27,16 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { useToast } from "@/components/ui/use-toast";
 
-// Icon imports
+// Icons
 import { Eye, EyeOff, User, Mail, Lock, UserCog } from "lucide-react";
 
-// Image and animation imports
+// Image and animations
 import Image from "next/image";
 import { motion } from "framer-motion";
 
-// Utility functions imports
+// Utility functions
 import { formatName } from "@/lib/utils";
 
 const formSchema = z.object({
@@ -124,16 +124,16 @@ export default function Register() {
   }
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-orange-100 via-orange-200 to-orange-300">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-orange-100 via-orange-200 to-orange-300 px-4 py-8 sm:px-6 lg:px-8">
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
         className="w-full max-w-md"
       >
-        <div className="bg-white rounded-lg shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
-          <div className="p-8 overflow-y-auto flex-grow">
-            <div className="flex justify-center mb-8">
+        <div className="bg-white rounded-lg shadow-2xl overflow-hidden">
+          <div className="p-6 sm:p-8">
+            <div className="flex justify-center mb-6 sm:mb-8">
               <Image
                 src="/logo.svg"
                 alt="MotoTaller Logo"
@@ -142,13 +142,13 @@ export default function Register() {
                 className="drop-shadow-md"
               />
             </div>
-            <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
+            <h1 className="text-2xl sm:text-3xl font-bold text-center text-gray-800 mb-6">
               Crear Cuenta
             </h1>
             <Form {...form}>
               <form
                 onSubmit={form.handleSubmit(onSubmit)}
-                className="space-y-6"
+                className="space-y-4 sm:space-y-6"
               >
                 <FormField
                   control={form.control}
@@ -263,7 +263,7 @@ export default function Register() {
               </form>
             </Form>
           </div>
-          <div className="bg-orange-100 p-6">
+          <div className="bg-orange-100 p-4 sm:p-6">
             <p className="text-center text-sm text-gray-600">
               <a
                 href="/dashboard/usuarios"
@@ -278,3 +278,4 @@ export default function Register() {
     </div>
   );
 }
+

@@ -1,18 +1,18 @@
 'use client'
 
-// React and Next.js imports
+// React and Next.js hooks
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
-// Form handling imports
+// Form handling with react-hook-form and zod
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import * as z from 'zod'
 
-// Cookie handling import
+// Cookie management
 import { setCookie } from 'nookies'
 
-// UI components imports
+// UI components
 import { Button } from '@/components/ui/button'
 import {
   Form,
@@ -26,11 +26,13 @@ import { Input } from '@/components/ui/input'
 import { useToast } from '@/components/ui/use-toast'
 import { Checkbox } from '@/components/ui/checkbox'
 
-// Icon imports
+// Icons
 import { Eye, EyeOff, Mail, Lock } from 'lucide-react'
 
-// Image and animation imports
+// Image component
 import Image from 'next/image'
+
+// Animation library
 import { motion } from 'framer-motion'
 
 const formSchema = z.object({
@@ -128,7 +130,7 @@ export default function Login() {
         transition={{ duration: 0.5 }}
         className="w-full max-w-md"
       >
-        <div className="bg-white rounded-lg shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
+        <div className="bg-white rounded-lg shadow-2xl overflow-x-hidden overflow-y-auto max-h-[90vh] flex flex-col md:pb-4 sm:pb-4 ">
           <div className="p-8 overflow-y-auto flex-grow">
             <div className="flex justify-center mb-8">
               <Image
@@ -236,3 +238,4 @@ export default function Login() {
     </div>
   )
 }
+
