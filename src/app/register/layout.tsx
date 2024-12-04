@@ -28,5 +28,5 @@ export default function RegisterLayout({
     )
   }
 
-  return <div className='overflow-auto'>{children}</div>
+  return <div className='overflow-auto md:pb-8'>{children}</div>
 }
