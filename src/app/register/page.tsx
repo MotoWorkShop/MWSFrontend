@@ -131,8 +131,8 @@ export default function Register() {
         transition={{ duration: 0.5 }}
         className="w-full max-w-md"
       >
-        <div className="bg-white rounded-lg shadow-2xl overflow-auto md:pb-8">
-          <div className="p-6 sm:p-8">
+         <div className="bg-white rounded-lg shadow-2xl overflow-x-hidden overflow-y-auto max-h-[90vh] flex flex-col md:pb-4 sm:pb-4 ">
+         <div className="p-8 overflow-y-auto flex-grow">
             <div className="flex justify-center mb-6 sm:mb-8">
               <Image
                 src="/logo.svg"
