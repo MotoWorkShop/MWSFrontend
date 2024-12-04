@@ -1140,7 +1140,10 @@ export default function OrdenServicioForm({
                       </FormItem>
                     )}
                   />
-                  <FormField
+                  {
+                  form.watch('estado') !== 'PENDIENTE'  &&
+                  form.watch('estado') !== 'CANCELADO'
+                  &&<FormField
                     control={form.control}
                     name="observaciones_mecanico"
                     render={({ field }) => (
@@ -1158,8 +1161,9 @@ export default function OrdenServicioForm({
                         <FormMessage />
                       </FormItem>
                     )}
-                  />
-                  <FormField
+                  />}
+
+                 {form.watch('estado') === 'COMPLETADO' && <FormField
                     control={form.control}
                     name="observaciones_factura"
                     render={({ field }) => (
@@ -1177,7 +1181,7 @@ export default function OrdenServicioForm({
                         <FormMessage />
                       </FormItem>
                     )}
-                  />
+                  />}
                 </CardContent>
               </Card>
 
