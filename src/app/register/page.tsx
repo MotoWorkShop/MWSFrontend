@@ -131,7 +131,7 @@ export default function Register() {
         transition={{ duration: 0.5 }}
         className="w-full max-w-md"
       >
-        <div className="bg-white rounded-lg shadow-2xl overflow-hidden">
+        <div className="bg-white rounded-lg shadow-2xl overflow-auto md:pb-8">
           <div className="p-6 sm:p-8">
             <div className="flex justify-center mb-6 sm:mb-8">
               <Image
