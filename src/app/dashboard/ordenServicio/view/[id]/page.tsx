@@ -99,7 +99,7 @@ export default function CompactPrintServiceOrderView() {
           <div className="space-y-6 print:break-inside-avoid">
             <div className="mb-4">
               <h3 className="text-lg font-bold mb-2">Servicios y Repuestos</h3>
-              <div className="border border-gray-300 rounded-md p-4">
+              <div className="border border-gray-950 rounded-md p-4">
                 <div className="grid grid-cols-12 gap-2 mb-2 font-semibold text-gray-700">
                   <div className="col-span-8">Concepto</div>
                   <div className="col-span-2 text-right">Cant</div>
