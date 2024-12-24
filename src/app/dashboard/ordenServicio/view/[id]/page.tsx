@@ -108,13 +108,13 @@ export default function CompactPrintServiceOrderView() {
                 {[...Array(25)].map((_, index) => (
                   <div key={index} className="grid grid-cols-12 gap-2">
                     <div className="col-span-8">
-                      <Separator className="my-2 border-[1px] border-gray-200" />
+                      <Separator className="my-2 border-[1px] border-gray-900" />
                     </div>
                     <div className="col-span-2">
-                      <Separator className="my-2 border-[1px] border-gray-200" />
+                      <Separator className="my-2 border-[1px] border-gray-900" />
                     </div>
                     <div className="col-span-2">
-                      <Separator className="my-2 border-[1px] border-gray-200" />
+                      <Separator className="my-2 border-[1px] border-gray-900" />
                     </div>
                   </div>
                 ))}

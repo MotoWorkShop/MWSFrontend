@@ -232,7 +232,7 @@ export default function VentaDirectaForm({
       toast({
         title: 'Error',
         description:
-          'Hubo un problema al procesar la venta directa. Por favor, intente de nuevo.',
+          'Hubo un problema al procesar la venta. Por favor, intente de nuevo.',
         variant: 'destructive',
       })
     } finally {
@@ -662,9 +662,9 @@ export default function VentaDirectaForm({
                 {initialData ? 'Actualizando Venta...' : 'Creando Venta...'}
               </>
             ) : initialData ? (
-              'Actualizar Venta Directa'
+              'Actualizar Venta'
             ) : (
-              'Crear Venta Directa'
+              'Crear Venta'
             )}
           </Button>
         </form>

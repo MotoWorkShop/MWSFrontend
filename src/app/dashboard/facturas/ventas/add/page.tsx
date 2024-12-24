@@ -30,7 +30,7 @@ export default function AddVentaDirectaPage() {
         title: 'Error',
         description:
           `${error.message}. Revisa posibles duplicados en los repuestos.` ||
-          'No se pudo crear la venta directa. Intenta de nuevo.',
+          'No se pudo crear la venta. Intenta de nuevo.',
         variant: 'destructive',
       })
       return
@@ -47,7 +47,7 @@ export default function AddVentaDirectaPage() {
 
   return (
     <div className="container mx-auto py-10">
-      <h1 className="text-2xl font-bold mb-5">Crear Nueva Venta Directa</h1>
+      <h1 className="text-2xl font-bold mb-5">Crear Nueva Venta</h1>
       <Link href="/dashboard/facturas/ventas">
         <Button variant="outline">
           <ArrowLeft className="mr-2 h-4 w-4" />

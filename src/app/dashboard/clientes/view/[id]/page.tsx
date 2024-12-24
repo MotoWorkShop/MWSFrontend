@@ -336,7 +336,7 @@ export default function ViewClientePage({
                             <TableCell>
                               {factura.id_orden_servicio
                                 ? 'Orden de Servicio'
-                                : 'Venta Directa'}
+                                : 'Venta'}
                             </TableCell>
                             <TableCell>
                               <Dialog>

@@ -712,7 +712,7 @@ export default function CompactFacturaViewPage({
             ) : (
               <ShoppingCart className="mr-1 h-4 w-4" />
             )}
-            {factura.orden_servicio ? 'Orden de Servicio' : 'Venta Directa'}
+            {factura.orden_servicio ? 'Orden de Servicio' : 'Venta'}
           </CardTitle>
         </CardHeader>
         <CardContent className="py-2">

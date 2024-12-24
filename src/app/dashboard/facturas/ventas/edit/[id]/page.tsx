@@ -36,11 +36,11 @@ export default function EditVentaDirectaPage({
         const data = await fetchOneVenta(params.id)
         setInitialData(data)
       } catch (error) {
-        console.error('Error fetching venta directa:', error)
+        console.error('Error fetching venta :', error)
         toast({
           title: 'Error',
           description:
-            'No se pudo cargar la venta directa. Por favor, intente de nuevo.',
+            'No se pudo cargar la venta . Por favor, intente de nuevo.',
           variant: 'destructive',
         })
       }
@@ -67,12 +67,12 @@ export default function EditVentaDirectaPage({
       console.log('responseData:', responseData)
       if (!response.ok) {
         throw new Error(
-          `${responseData.message}. Revisa posibles duplicados en los repuestos.`  || 'No se pudo actualizar la venta directa.'
+          `${responseData.message}. Revisa posibles duplicados en los repuestos.`  || 'No se pudo actualizar la venta.'
         )
       }
       toast({
         title: 'Éxito',
-        description: 'La venta directa ha sido actualizada exitosamente. ✅',
+        description: 'La venta ha sido actualizada exitosamente. ✅',
       })
       if (responseData.factura) {
         router.push(
@@ -82,12 +82,12 @@ export default function EditVentaDirectaPage({
         router.push(`/dashboard/facturas/view/${params.id}`)
       }
     } catch (error) {
-      console.error('Error updating venta directa:', error)
+      console.error('Error updating venta:', error)
       toast({
         title: 'Error',
         description:
           error.message ||
-          'No se pudo actualizar la venta directa. Intenta de nuevo.',
+          'No se pudo actualizar la venta. Intenta de nuevo.',
         variant: 'destructive',
       })
     }
@@ -103,7 +103,7 @@ export default function EditVentaDirectaPage({
 
   return (
     <div className="container mx-auto py-10">
-      <h1 className="text-2xl font-bold mb-5">Editar Venta Directa</h1>
+      <h1 className="text-2xl font-bold mb-5">Editar Venta</h1>
       <Link href="/dashboard/facturas/ventas">
         <Button variant="outline">
           <ArrowLeft className="mr-2 h-4 w-4" />
